@@ -1,0 +1,26 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:8080/index.html",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "Run Local Server",
+            "postDebugTask": "Stop Local Server"
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Launch FireFox against localhost",
+            "url": "http://localhost:8080/index.html",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "Run Local Server",
+            "postDebugTask": "Stop Local Server"
+        }
+    ]
+}

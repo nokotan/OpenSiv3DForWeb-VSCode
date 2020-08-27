@@ -1,0 +1,208 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build: Compile (Debug)",
+            "command": "em++",
+            "args": [
+                // Input
+                "Main.cpp", 
+
+                // Output
+                "-c", "-o", "Main.o",
+
+                // Compiler Flags
+                "-O0", "-std=c++17", "-g4",
+
+                // Include Directory
+                "-IOpenSiv3D/include",  
+                "-IOpenSiv3D/include/ThirdParty",  
+
+                // em++ Specific Configurations
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Build: Link (Debug)",
+            "command": "em++",
+            "args": 
+            [
+                // Input
+                "Main.o",
+
+                // Output
+                "-o", "index.html",
+
+                // Compiler Flags
+                "-O0", "-std=c++17", "-g4",
+
+                // Library Directory
+                "-LOpenSiv3D/lib",
+                "-LOpenSiv3D/lib/freetype",
+                "-LOpenSiv3D/lib/harfbuzz",
+                "-LOpenSiv3D/lib/opencv",
+
+                // Dependent Libraries
+                "-lfreetype",
+                "-lharfbuzz",
+                "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
+                "-lSiv3D",
+
+                // em++ Specific Configurations
+                "--emrun",
+                "-s", "FULL_ES3=1",
+                "-s", "USE_GLFW=3",
+                "-s", "USE_LIBPNG=1",
+                "-s", "USE_OGG=1",
+                "-s", "USE_VORBIS=1",
+                "-s", "ALLOW_MEMORY_GROWTH=1",
+                "-s", "ERROR_ON_UNDEFINED_SYMBOLS=0",
+
+                // Packaging Configurations
+                "--source-map-base", "http://localhost:8080/",
+                "--preload-file", "OpenSiv3D/example@/example",
+                "--preload-file", "OpenSiv3D/resources@/resources",
+                "--js-library", "OpenSiv3D/lib/Siv3D.js",
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Build: Compile (Release)",
+            "command": "em++",
+            "args": [
+                // Input
+                "Main.cpp", 
+
+                // Output
+                "-c", "-o", "Main.o",
+
+                // Compiler Flags
+                "-O2", "-std=c++17",
+
+                // Include Directory
+                "-IDxLibForHTML5",  
+
+                // em++ Specific Configurations
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Build: Link (Release)",
+            "command": "em++",
+            "args": 
+            [
+                // Input
+                "Main.o",
+
+                // Output
+                "-o", "index.html",
+
+                // Compiler Flags
+                "-O2", "-std=c++17",
+
+                // Library Directory
+                "-LDxLibForHTML5",
+
+                // Dependent Libraries
+                "-lbullet", "-lfreetype", "-logg", "-lpng", "-lvorbis", "-lz",
+                "-lDxDrawFunc", "-lDxUseCLib", "-lDxLib",
+
+                // em++ Specific Configurations
+                "--emrun",
+                "-s", "FULL_ES2=1",
+                "-s", "ALLOW_MEMORY_GROWTH=1",
+
+                // Packaging Configurations
+                "--source-map-base", "http://localhost:8080/",
+                "--preload-file", "assets@/",
+                "--shell-file", "template.html"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Build: Debug",
+            "dependsOn": 
+            [
+                    "Build: Compile (Debug)", "Build: Link (Debug)",
+            ],
+            "dependsOrder": "sequence",
+            "group":{
+                    "kind": "build",
+                    "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Build: Release",
+            "dependsOn": 
+            [
+                    "Build: Compile (Release)", "Build: Link (Release)",
+            ],
+            "dependsOrder": "sequence",
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Run Local Server and Open Browser",
+            "command": "emrun",
+            "args": [
+                "--port", "8080",
+                "--serve_after_close",
+                "index.html"
+            ],
+            "group": "none"
+        },
+        {
+            "type": "shell",
+            "label": "Run Local Server",
+            "command": "emrun",
+            "args": 
+            [
+                "--hostname", "localhost",
+                "--port", "8080",
+                "--no_browser",
+                "index.html"
+            ],
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".",
+                            "file": 1,
+                            "location": 2,
+                            "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".",
+                        "endsPattern": "Now listening at",
+                    }
+                }
+            ],
+            "group": "none"
+        },
+        {
+            "label": "Stop Local Server",
+            "type": "shell",
+            "command": "echo ${input:terminate}",
+            "group": "none"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "terminate",
+            "type": "command",
+            "command": "workbench.action.tasks.terminate",
+            "args": "Run Local Server"
+        }
+    ]
+}

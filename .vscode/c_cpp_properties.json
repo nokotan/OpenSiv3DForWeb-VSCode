@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Emscripten",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/OpenSiv3D/include",
+                "${workspaceFolder}/OpenSiv3D/include/ThirdParty",
+                "${env:EMSDK}/upstream/emscripten/system/include",
+                "${env:EMSDK}/upstream/emscripten/system/include/libc",
+                "${env:EMSDK}/upstream/emscripten/system/include/libcxx"
+            ],
+            "defines": [
+                "_DEBUG",
+                "EMSCRIPTEN",
+                "__EMSCRIPTEN__"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x86"
+        }
+    ],
+    "version": 4
+}
