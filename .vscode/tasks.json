@@ -82,10 +82,11 @@
                 "-c", "-o", "Main.o",
 
                 // Compiler Flags
-                "-O2", "-std=c++17",
+                "-O2", "-std=c++17", "-g4",
 
                 // Include Directory
-                "-IDxLibForHTML5",  
+                "-IOpenSiv3D/include",  
+                "-IOpenSiv3D/include/ThirdParty",  
 
                 // em++ Specific Configurations
             ],
@@ -97,31 +98,41 @@
             "command": "em++",
             "args": 
             [
-                // Input
-                "Main.o",
+               // Input
+               "Main.o",
 
-                // Output
-                "-o", "index.html",
+               // Output
+               "-o", "index.html",
 
-                // Compiler Flags
-                "-O2", "-std=c++17",
+               // Compiler Flags
+               "-O2", "-std=c++17",
 
-                // Library Directory
-                "-LDxLibForHTML5",
+               // Library Directory
+               "-LOpenSiv3D/lib",
+               "-LOpenSiv3D/lib/freetype",
+               "-LOpenSiv3D/lib/harfbuzz",
+               "-LOpenSiv3D/lib/opencv",
 
-                // Dependent Libraries
-                "-lbullet", "-lfreetype", "-logg", "-lpng", "-lvorbis", "-lz",
-                "-lDxDrawFunc", "-lDxUseCLib", "-lDxLib",
+               // Dependent Libraries
+               "-lfreetype",
+               "-lharfbuzz",
+               "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
+               "-lSiv3D",
 
-                // em++ Specific Configurations
-                "--emrun",
-                "-s", "FULL_ES2=1",
-                "-s", "ALLOW_MEMORY_GROWTH=1",
+               // em++ Specific Configurations
+               "--emrun",
+               "-s", "FULL_ES3=1",
+               "-s", "USE_GLFW=3",
+               "-s", "USE_LIBPNG=1",
+               "-s", "USE_OGG=1",
+               "-s", "USE_VORBIS=1",
+               "-s", "ALLOW_MEMORY_GROWTH=1",
+               "-s", "ERROR_ON_UNDEFINED_SYMBOLS=0",
 
-                // Packaging Configurations
-                "--source-map-base", "http://localhost:8080/",
-                "--preload-file", "assets@/",
-                "--shell-file", "template.html"
+               // Packaging Configurations
+               "--preload-file", "OpenSiv3D/example@/example",
+               "--preload-file", "OpenSiv3D/resources@/resources",
+               "--js-library", "OpenSiv3D/lib/Siv3D.js",
             ],
             "group": "build"
         },
