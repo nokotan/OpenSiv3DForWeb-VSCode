@@ -66,6 +66,7 @@
                 "--source-map-base", "http://localhost:8080/",
                 "--preload-file", "OpenSiv3D/example@/example",
                 "--preload-file", "OpenSiv3D/resources@/resources",
+                "--shell-file", "template-web-player.html",
                 "--js-library", "OpenSiv3D/lib/Siv3D.js",
             ],
             "group": "build"
@@ -132,6 +133,7 @@
                // Packaging Configurations
                "--preload-file", "OpenSiv3D/example@/example",
                "--preload-file", "OpenSiv3D/resources@/resources",
+               "--shell-file", "template-web-player.html",
                "--js-library", "OpenSiv3D/lib/Siv3D.js",
             ],
             "group": "build"
