@@ -8,7 +8,13 @@
                 "${workspaceFolder}/OpenSiv3D/include/ThirdParty",
                 "${env:EMSDK}/upstream/emscripten/system/include",
                 "${env:EMSDK}/upstream/emscripten/system/include/libc",
-                "${env:EMSDK}/upstream/emscripten/system/include/libcxx"
+                "${env:EMSDK}/upstream/emscripten/system/include/libcxx",
+                "${env:EMSDK}/upstream/emscripten/system/include/compat",
+                "${env:EMSDK}/upstream/emscripten/system/lib/libcxxabi/include",
+                "${env:EMSDK}/upstream/emscripten/system/lib/libc/musl/arch/emscripten"
+            ],
+            "forcedInclude": [
+                "${workspaceFolder}/.vscode/Undefs.h"
             ],
             "defines": [
                 "_DEBUG",
