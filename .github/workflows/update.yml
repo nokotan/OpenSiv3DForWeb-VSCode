@@ -7,6 +7,10 @@ on:
         description: Trigger reason
         required: true
         default: 'Auto-Update'
+      url:
+        description: Release URL
+        required: true
+        default: 'https://github.com/nokotan/OpenSiv3D/releases/download/v0.4.3.3-web/OpenSiv3D-wasm.tgz'
 
 jobs:
   update:
@@ -20,7 +24,7 @@ jobs:
       - name: Launch Shell
         run: |
           chmod +x UpdateOpenSiv3D.sh
-          ./UpdateOpenSiv3D.sh
+          ./UpdateOpenSiv3D.sh "${{ github.event.inputs.url }}"
 
       - name: Set Bot Profile
         run: |
