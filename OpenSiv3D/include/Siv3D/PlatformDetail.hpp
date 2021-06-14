@@ -19,6 +19,7 @@
 
 # if SIV3D_PLATFORM(WEB)
 #	include <emscripten.h>
+#	include <future>
 # endif
 
 namespace s3d::Platform
