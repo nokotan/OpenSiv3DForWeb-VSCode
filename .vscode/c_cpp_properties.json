@@ -6,6 +6,10 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/OpenSiv3D/include",
                 "${workspaceFolder}/OpenSiv3D/include/ThirdParty",
+                "${env:EMSDK}/upstream/emscripten/cache/sysroot/include/c++/v1",
+                "${env:EMSDK}/upstream/emscripten/cache/sysroot/include/compat",
+                "${env:EMSDK}/upstream/emscripten/cache/sysroot/include",
+                "${env:EMSDK}/upstream/lib/clang/13.0.0/include",
                 "${env:EMSDK}/upstream/emscripten/system/include",
                 "${env:EMSDK}/upstream/emscripten/system/include/libc",
                 "${env:EMSDK}/upstream/emscripten/system/include/libcxx",
@@ -17,9 +21,11 @@
                 "${workspaceFolder}/.vscode/Undefs.h"
             ],
             "defines": [
-                "_DEBUG",
-                "EMSCRIPTEN",
-                "__EMSCRIPTEN__"
+                "EMSCRIPTEN=1",
+                "__EMSCRIPTEN__=1",
+                "WASM=1",
+                "__WASM=1",
+                "__WASM__=1"
             ],
             "cStandard": "c11",
             "cppStandard": "c++17",
