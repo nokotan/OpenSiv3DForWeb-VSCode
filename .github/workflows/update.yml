@@ -23,8 +23,8 @@ jobs:
 
       - name: Launch Shell
         run: |
-          chmod +x UpdateOpenSiv3D.sh
-          ./UpdateOpenSiv3D.sh "${{ github.event.inputs.url }}"
+          chmod +x CI/UpdateOpenSiv3D.sh
+          ./CI/UpdateOpenSiv3D.sh "${{ github.event.inputs.url }}"
 
       - name: Set Bot Profile
         run: |
