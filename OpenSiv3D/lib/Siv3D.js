@@ -15,7 +15,11 @@ mergeInto(LibraryManager.library, {
 
     glfwGetMonitorInfo_Siv3D: function(handle, displayID, name, xpos, ypos, w, h, wx, wy, ww, wh) {
         setValue(displayID, 1, 'i32');
+#if EMSCRIPTEN_VERSION === "2.0.4"
         setValue(name, allocate(intArrayFromString("HTML5 WebGL Canvas"), 'i8', ALLOC_NORMAL), 'i32');
+#else
+        setValue(name, allocate(intArrayFromString("HTML5 WebGL Canvas"), ALLOC_NORMAL), 'i32');
+#endif
         setValue(xpos, 0, 'i32');
         setValue(ypos, 0, 'i32');
         setValue(w, window.screen.width, 'i32');
@@ -359,8 +363,11 @@ mergeInto(LibraryManager.library, {
 
             s3dDialogFileReader.addEventListener("load", function onLoaded() {
                 FS.writeFile(filePath, new Uint8Array(s3dDialogFileReader.result));
-
+#if EMSCRIPTEN_VERSION === "2.0.4"
                 const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
+#else
+                const namePtr = allocate(intArrayFromString(filePath), ALLOC_NORMAL);
+#endif
                 {{{ makeDynCall('vii', 'callback') }}}(namePtr, futurePtr);
 
                 s3dDialogFileReader.removeEventListener("load", onLoaded);
@@ -504,7 +511,11 @@ mergeInto(LibraryManager.library, {
 
             if (items[0].kind === 'text') {
                 items[0].getAsString(function(str) {
+#if EMSCRIPTEN_VERSION === "2.0.4"
                     const strPtr = allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL);
+#else
+                    const strPtr = allocate(intArrayFromString(str), ALLOC_NORMAL);
+#endif
                     {{{ makeDynCall('vi', 'ptr') }}}(strPtr);
                     Module["_free"](strPtr);
                 })            
@@ -519,8 +530,13 @@ mergeInto(LibraryManager.library, {
 
                 s3dDragDropFileReader.addEventListener("load", function onLoaded() {
                     FS.writeFile(filePath, new Uint8Array(s3dDragDropFileReader.result));
-
+                
+#if EMSCRIPTEN_VERSION === "2.0.22"
                     const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
+#else
+                    const namePtr = allocate(intArrayFromString(filePath), ALLOC_NORMAL);
+#endif
+
                     {{{ makeDynCall('vi', 'ptr') }}}(namePtr);
 
                     s3dDragDropFileReader.removeEventListener("load", onLoaded);
@@ -654,6 +670,166 @@ mergeInto(LibraryManager.library, {
     },
     s3dRequestTextInputFocus__sig: "vi",
     s3dRequestTextInputFocus__deps: [ "$s3dRegisterUserAction", "$s3dTextInputElement" ],
+
+    //
+    // Notification
+    //
+    $s3dNotifications: [],
+
+    s3dInitNotification: function() {
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+    },
+    s3dInitNotification__sig: "v",
+
+    s3dCreateNotification: function(title, body, actionsNum, actionTexts, callback, callbackArg) {
+        if (!window.Notification && Notification.permission !== "granted") {
+            {{{ makeDynCall('vii', 'callback') }}}(0, callbackArg);
+            return 0;
+        }
+
+        const idx = GL.getNewId(s3dNotifications);
+
+        const titleText = UTF8ToString(title);
+        const bodyText = UTF8ToString(body);
+        let actions = [];
+
+        for (let i = 0; i < actionsNum; i++) {
+            const textPtr = getValue(actionTexts + i * 4, "i32");
+            const actionText = UTF8ToString(textPtr);
+
+            actions.push({ title: actionText, action: actionText });
+        }
+
+        s3dRegisterUserAction(function () {
+            s3dNotifications[idx] = new Notification(titleText, { body: bodyText, actions: actions })
+            {{{ makeDynCall('vii', 'callback') }}}(idx, callbackArg);
+        }); 
+
+        return idx;
+    },
+    s3dCreateNotification__sig: "iiiiiii",
+    s3dCreateNotification__deps: [ "$s3dRegisterUserAction", "$s3dNotifications" ],
+
+    s3dRegisterNotificationCallback: function(id, callback, callbackArg) {
+        const notificattion = s3dNotifications[id];
+
+        notificattion.onclick = function() {
+            {{{ makeDynCall('viii', 'callback') }}}(id, 1 /* ToastNotificationState.Activated */, callbackArg);
+        }
+        notificattion.onshow = function() {
+            {{{ makeDynCall('viii', 'callback') }}}(id, 2 /* ToastNotificationState.Shown */, callbackArg);
+        }
+        notificattion.onclose = function() {
+            {{{ makeDynCall('viii', 'callback') }}}(id, 5 /* ToastNotificationState.TimedOut */, callbackArg);
+        }
+        notificattion.onerror = function() {
+            {{{ makeDynCall('viii', 'callback') }}}(id, 6 /* ToastNotificationState.Error */, callbackArg);
+        }
+    },
+    s3dRegisterNotificationCallback__sig: "viii",
+    s3dRegisterNotificationCallback__deps: [ "$s3dNotifications" ],
+
+    s3dCloseNotification: function(id) {
+        const notificattion = s3dNotifications[id];
+        notificattion.close();
+
+        delete s3dNotifications[id];
+    },
+    s3dCloseNotification__sig: "vi",
+    s3dCloseNotification__deps: [ "$s3dNotifications" ],
+
+    s3dQueryNotificationAvailability: function() {
+        return Notification.permission === "granted";
+    },
+    s3dQueryNotificationAvailability__sig: "iv",
+
+    //
+    // TextToSpeech
+    //
+    s3dEnumerateAvailableTextToSpeechLanguages: function(returnPtr) {
+        const LanguageNameToLanguageCodeList = {
+            "ar-SA": 1025,
+            "zh-CN": 2052,
+            "zh-HK": 3076,
+            "zh-TW": 1028,
+            "en-AU": 3081,
+            "en-GB": 2057,
+            "en-US": 1033,
+            "fr-FR": 1036,
+            "de-DE": 1031,
+            "hi-IN": 1081,
+            "it-IT": 1040,
+            "ja-JP": 1041,
+            "ko-KR": 1042,
+            "pt-BR": 1046,
+            "ru-RU": 1049,
+            "es-ES": 1034
+        };
+        
+        const voices = window.speechSynthesis.getVoices();
+        let listBufferPtr = Module["_malloc"](voices.length * 4 * 2);
+
+        setValue(returnPtr, voices.length, "i32");
+        setValue(returnPtr + 4, listBufferPtr, "i32");
+
+        for(let i = 0; i < voices.length; i++) {
+            const languageCode = LanguageNameToLanguageCodeList[voices[i].lang];
+             
+            setValue(listBufferPtr + 0, languageCode, "i32");
+            setValue(listBufferPtr + 4, voices[i].default, "i32");
+
+            listBufferPtr += 8;
+        }
+    },
+    s3dEnumerateAvailableTextToSpeechLanguages__sig: "vi",
+
+    s3dStartTextToSpeechLanguages: function(textPtr, rate, volume, languageCode) {
+        const LanguageCodeToLanguageNameList = {
+            1025: "ar-SA",
+            2052: "zh-CN",
+            3076: "zh-HK",
+            1028: "zh-TW",
+            3081: "en-AU",
+            2057: "en-GB",
+            1033: "en-US",
+            1036: "fr-FR",
+            1031: "de-DE",
+            1081: "hi-IN",
+            1040: "it-IT",
+            1041: "ja-JP",
+            1042: "ko-KR",
+            1046: "pt-BR",
+            1049: "ru-RU",
+            1034: "es-ES"
+        };
+        const text = UTF8ToString(textPtr);
+
+        const speechUtter = new SpeechSynthesisUtterance(text);
+
+        speechUtter.lang = LanguageCodeToLanguageNameList[languageCode];
+        speechUtter.rate = rate;
+        speechUtter.volume = volume;
+
+        window.speechSynthesis.speak(speechUtter);
+    },
+    s3dStartTextToSpeechLanguages__sig: "viiii",
+
+    s3dIsSpeakingTextToSpeechLanguages: function() {
+        return window.speechSynthesis.speaking;
+    },
+    s3dIsSpeakingTextToSpeechLanguages__sig: "iv",
+
+    s3dPauseTextToSpeechLanguages: function() {
+        window.speechSynthesis.pause();
+    },
+    s3dPauseTextToSpeechLanguages__sig: "v",
+
+    s3dResumeTextToSpeechLanguages: function() {
+        window.speechSynthesis.resume();
+    },
+    s3dResumeTextToSpeechLanguages__sig: "v",
 
     //
     // Misc
