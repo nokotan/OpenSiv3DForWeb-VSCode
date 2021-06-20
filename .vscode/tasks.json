@@ -43,14 +43,20 @@
                 // Library Directory
                 "-LOpenSiv3D/lib",
                 "-LOpenSiv3D/lib/freetype",
+                "-LOpenSiv3D/lib/giflib",
                 "-LOpenSiv3D/lib/harfbuzz",
                 "-LOpenSiv3D/lib/opencv",
+                "-LOpenSiv3D/lib/turbojpeg",
+                "-LOpenSiv3D/lib/webp",
 
                 // Dependent Libraries
+                "-lSiv3D",
                 "-lfreetype",
+                "-lgif",
                 "-lharfbuzz",
                 "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
-                "-lSiv3D",
+                "-lturbojpeg",
+                "-lwebp",
 
                 // em++ Specific Configurations
                 "--emrun",
@@ -99,42 +105,48 @@
             "command": "em++",
             "args": 
             [
-               // Input
-               "Main.o",
+                // Input
+                "Main.o",
 
-               // Output
-               "-o", "index.html",
+                // Output
+                "-o", "index.html",
 
-               // Compiler Flags
-               "-O2", "-std=c++17",
+                // Compiler Flags
+                "-O2", "-std=c++17",
 
-               // Library Directory
-               "-LOpenSiv3D/lib",
-               "-LOpenSiv3D/lib/freetype",
-               "-LOpenSiv3D/lib/harfbuzz",
-               "-LOpenSiv3D/lib/opencv",
+                // Library Directory
+                "-LOpenSiv3D/lib",
+                "-LOpenSiv3D/lib/freetype",
+                "-LOpenSiv3D/lib/giflib",
+                "-LOpenSiv3D/lib/harfbuzz",
+                "-LOpenSiv3D/lib/opencv",
+                "-LOpenSiv3D/lib/turbojpeg",
+                "-LOpenSiv3D/lib/webp",
 
-               // Dependent Libraries
-               "-lfreetype",
-               "-lharfbuzz",
-               "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
-               "-lSiv3D",
+                // Dependent Libraries
+                "-lSiv3D",
+                "-lfreetype",
+                "-lgif",
+                "-lharfbuzz",
+                "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
+                "-lturbojpeg",
+                "-lwebp",
 
-               // em++ Specific Configurations
-               "--emrun",
-               "-s", "FULL_ES3=1",
-               "-s", "USE_GLFW=3",
-               "-s", "USE_LIBPNG=1",
-               "-s", "USE_OGG=1",
-               "-s", "USE_VORBIS=1",
-               "-s", "ALLOW_MEMORY_GROWTH=1",
-               "-s", "ERROR_ON_UNDEFINED_SYMBOLS=0",
+                // em++ Specific Configurations
+                "--emrun",
+                "-s", "FULL_ES3=1",
+                "-s", "USE_GLFW=3",
+                "-s", "USE_LIBPNG=1",
+                "-s", "USE_OGG=1",
+                "-s", "USE_VORBIS=1",
+                "-s", "ALLOW_MEMORY_GROWTH=1",
+                "-s", "ERROR_ON_UNDEFINED_SYMBOLS=0",
 
-               // Packaging Configurations
-               "--preload-file", "OpenSiv3D/example@/example",
-               "--preload-file", "OpenSiv3D/resources@/resources",
-               "--shell-file", "template-web-player.html",
-               "--js-library", "OpenSiv3D/lib/Siv3D.js",
+                // Packaging Configurations
+                "--preload-file", "OpenSiv3D/example@/example",
+                "--preload-file", "OpenSiv3D/resources@/resources",
+                "--shell-file", "template-web-player.html",
+                "--js-library", "OpenSiv3D/lib/Siv3D.js",
             ],
             "group": "build"
         },
