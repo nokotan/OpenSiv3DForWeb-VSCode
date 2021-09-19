@@ -15,7 +15,8 @@
                 "-c", "-o", "Main.o",
 
                 // Compiler Flags
-                "-O0", "-std=c++17", "-g4",
+                "-O0", "-std=c++2a", "-g",
+                "-D_XM_NO_INTRINSICS_",
 
                 // Include Directory
                 "-IOpenSiv3D/include",  
@@ -38,7 +39,7 @@
                 "-o", "index.html",
 
                 // Compiler Flags
-                "-O0", "-std=c++17", "-g4",
+                "-O0", "-std=c++2a", "-g",
 
                 // Library Directory
                 "-LOpenSiv3D/lib",
@@ -46,6 +47,8 @@
                 "-LOpenSiv3D/lib/giflib",
                 "-LOpenSiv3D/lib/harfbuzz",
                 "-LOpenSiv3D/lib/opencv",
+                "-LOpenSiv3D/lib/opus",
+                "-LOpenSiv3D/lib/tiff",
                 "-LOpenSiv3D/lib/turbojpeg",
                 "-LOpenSiv3D/lib/webp",
 
@@ -56,12 +59,17 @@
                 "-lharfbuzz",
                 "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
                 "-lturbojpeg",
+                "-ltiff",
+                "-lopusfile", "-lopus",
                 "-lwebp",
 
                 // em++ Specific Configurations
                 "--emrun",
                 "-s", "FULL_ES3=1",
+                "-s", "MIN_WEBGL_VERSION=2",
+                "-s", "MAX_WEBGL_VERSION=2",
                 "-s", "USE_GLFW=3",
+                "-s", "USE_SDL=2",
                 "-s", "USE_LIBPNG=1",
                 "-s", "USE_OGG=1",
                 "-s", "USE_VORBIS=1",
@@ -73,6 +81,7 @@
                 "--preload-file", "OpenSiv3D/example@/example",
                 "--preload-file", "OpenSiv3D/resources@/resources",
                 "--shell-file", "template-web-player.html",
+                "--pre-js", "OpenSiv3D/lib/Siv3D.pre.js",
                 "--js-library", "OpenSiv3D/lib/Siv3D.js",
             ],
             "group": "build"
@@ -89,7 +98,8 @@
                 "-c", "-o", "Main.o",
 
                 // Compiler Flags
-                "-O2", "-std=c++17", "-g4",
+                "-O2", "-std=c++2a",
+                "-D_XM_NO_INTRINSICS_",
 
                 // Include Directory
                 "-IOpenSiv3D/include",  
@@ -112,7 +122,7 @@
                 "-o", "index.html",
 
                 // Compiler Flags
-                "-O2", "-std=c++17",
+                "-O2", "-std=c++2a",
 
                 // Library Directory
                 "-LOpenSiv3D/lib",
@@ -120,6 +130,8 @@
                 "-LOpenSiv3D/lib/giflib",
                 "-LOpenSiv3D/lib/harfbuzz",
                 "-LOpenSiv3D/lib/opencv",
+                "-LOpenSiv3D/lib/opus",
+                "-LOpenSiv3D/lib/tiff",
                 "-LOpenSiv3D/lib/turbojpeg",
                 "-LOpenSiv3D/lib/webp",
 
@@ -130,12 +142,17 @@
                 "-lharfbuzz",
                 "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
                 "-lturbojpeg",
+                "-ltiff",
+                "-lopusfile", "-lopus",
                 "-lwebp",
 
                 // em++ Specific Configurations
                 "--emrun",
                 "-s", "FULL_ES3=1",
+                "-s", "MIN_WEBGL_VERSION=2",
+                "-s", "MAX_WEBGL_VERSION=2",
                 "-s", "USE_GLFW=3",
+                "-s", "USE_SDL=2",
                 "-s", "USE_LIBPNG=1",
                 "-s", "USE_OGG=1",
                 "-s", "USE_VORBIS=1",
@@ -146,6 +163,7 @@
                 "--preload-file", "OpenSiv3D/example@/example",
                 "--preload-file", "OpenSiv3D/resources@/resources",
                 "--shell-file", "template-web-player.html",
+                "--pre-js", "OpenSiv3D/lib/Siv3D.pre.js",
                 "--js-library", "OpenSiv3D/lib/Siv3D.js",
             ],
             "group": "build"
