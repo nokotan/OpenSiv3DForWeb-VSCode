@@ -86,10 +86,59 @@
       .st0:hover {
         fill:#FBFBFB;
       }
+
+      .st1 {
+        fill:#CBCBCB;
+        transition: all 0.2s ease-out;
+      }
+
+      .st1:hover {
+        fill:#FBFBFB;
+      }
+
+      .playground-overlay {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+
+        color: transparent;
+        transition: all 0.2s ease-out;
+      }
+
+      .playground-overlay:hover {
+        color: white;
+        border-color: white;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .play-button {
+        width: 3cm;
+        height: 3cm;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+      }
     </style>
   </head>
   <body>
     <div id="app">
+      <div class="playground-overlay" hidden="true">
+        <span class="play-button">
+          <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+            <g>
+              <path class="st1" d="M256,0C114.625,0,0,114.625,0,256c0,141.374,114.625,256,256,256c141.374,0,256-114.626,256-256
+                C512,114.625,397.374,0,256,0z M351.062,258.898l-144,85.945c-1.031,0.626-2.344,0.657-3.406,0.031
+                c-1.031-0.594-1.687-1.702-1.687-2.937v-85.946v-85.946c0-1.218,0.656-2.343,1.687-2.938c1.062-0.609,2.375-0.578,3.406,0.031
+                l144,85.962c1.031,0.586,1.641,1.718,1.641,2.89C352.703,257.187,352.094,258.297,351.062,258.898z"/>
+            </g>
+          </svg>
+        </span>
+      </div>
       <div id="progress-frame">
         <div id="progress" class="progress-ok" hidden></div>
       </div>
@@ -100,10 +149,11 @@
             id="canvas"
             oncontextmenu="event.preventDefault()"
             tabindex="-1"
+            hidden="true"
           ></canvas>
         </div>
         <div id="footer-control">
-          <a class="footer-button st0" href="javascript:void(0);" onclick="Module.toggleAudioContext()">
+          <a class="footer-button st0" href="javascript:void(0);" onclick="Options.toggleAudioContext()">
             <svg id="sound-off" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
               viewBox="0 0 512 512" style="enable-background:new 0 0 512 512; display: none;" xml:space="preserve">
               <g class="st0">
@@ -140,7 +190,7 @@
               </g>
             </svg>
           </a>
-          <a class="footer-button" href="javascript:void(0);" onclick="Module.requestFullscreen(false, false)">
+          <a class="footer-button" href="javascript:void(0);" onclick="Options.requestFullscreen(false, false)">
             <svg width="1cm" height="1cm" viewBox="0 0 100 100"
                 xmlns="http://www.w3.org/2000/svg" version="1.1">
               
@@ -159,16 +209,16 @@
       let gainNode;
 
       const onResize = function() {
-        Module["setCanvasSize"](canvasContainerElement.clientWidth, canvasContainerElement.clientHeight);
+        Options["setCanvasSize"](canvasContainerElement.clientWidth, canvasContainerElement.clientHeight);
       }
 
       const onAudioInit = function() {
         // Inject Gain Node
 
         /** @type { AudioContext } */
-        const audioCtx = Module["getCurrentAudioContext"]();
+        const audioCtx = Options["getCurrentAudioContext"]();
         /** @type { ScriptProcessorNode } */
-        const audioSource = Module["getCurrentAudioSource"]();
+        const audioSource = Options["getCurrentAudioSource"]();
 
         gainNode = audioCtx.createGain();
         audioSource.disconnect(audioCtx.destination);
@@ -187,7 +237,7 @@
         hasRaiseRuntimeError = true;
       }
 
-      var Module = {
+      var Options = {
         preRun: [],
         postRun: [ onResize, onAudioInit ],
         printErr: function (text) {
@@ -214,14 +264,14 @@
           return canvas;
         })(),
         setStatus: function (text) {
-          if (!Module["setStatus"].last)
-          Module["setStatus"].last = { time: Date.now(), text: "" };
-          if (text === Module["setStatus"].last.text) return;
+          if (!Options["setStatus"].last)
+          Options["setStatus"].last = { time: Date.now(), text: "" };
+          if (text === Options["setStatus"].last.text) return;
           var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
           var now = Date.now();
-          if (m && now - Module["setStatus"].last.time < 30) return; // if this is a progress update, skip it if too soon
-          Module["setStatus"].last.time = now;
-          Module["setStatus"].last.text = text;
+          if (m && now - Options["setStatus"].last.time < 30) return; // if this is a progress update, skip it if too soon
+          Options["setStatus"].last.time = now;
+          Options["setStatus"].last.text = text;
           if (m) {
             text = m[1];
             progressElement.style.width = `${parseInt(m[2]) * 100 / parseInt(m[4])}%`;
@@ -233,7 +283,7 @@
         totalDependencies: 0,
         monitorRunDependencies: function (left) {
           this.totalDependencies = Math.max(this.totalDependencies, left);
-          Module["setStatus"](
+          Options["setStatus"](
           left
               ? "Preparing... (" +
                   (this.totalDependencies - left) +
@@ -261,8 +311,27 @@
           }
         }
       }
-      Module["setStatus"]("Downloading...");
+      Options["setStatus"]("Downloading...");
     </script>
     {{{ SCRIPT }}}
+    <script>
+      if (window != window.parent) {
+        var overlay = document.querySelector(".playground-overlay");
+        overlay.hidden = false;
+
+        overlay.addEventListener("click", function onClick() {
+          overlay.removeEventListener("click", onClick);
+          overlay.hidden = true;
+
+          Options.canvas.hidden = false;
+          Module(Options);
+        });
+      } else {
+        document.querySelector("script[async]").addEventListener('load', function() {
+          Options.canvas.hidden = false;
+          Module(Options);
+        });
+      }
+    </script>
   </body>
 </html>
