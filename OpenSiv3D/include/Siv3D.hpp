@@ -823,7 +823,7 @@
 # include <Siv3D/Sample.hpp>
 
 // UUID | UUID
-# include <Siv3D/UUID.hpp>
+# include <Siv3D/UUIDValue.hpp>
 
 //////////////////////////////////////////////////
 //
@@ -842,6 +842,9 @@
 
 // 画面解像度の定数 | Display resolution constants
 # include <Siv3D/DisplayResolution.hpp>
+
+// モニターの情報 | Monitor information
+# include <Siv3D/MonitorInfo.hpp>
 
 // モニター | Monitor
 # include <Siv3D/Monitor.hpp>
