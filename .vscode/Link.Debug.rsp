@@ -1,0 +1,50 @@
+-LOpenSiv3D/lib 
+-LOpenSiv3D/lib/freetype
+-LOpenSiv3D/lib/giflib
+-LOpenSiv3D/lib/harfbuzz
+-LOpenSiv3D/lib/opencv
+-LOpenSiv3D/lib/opus
+-LOpenSiv3D/lib/tiff
+-LOpenSiv3D/lib/turbojpeg
+-LOpenSiv3D/lib/webp
+
+-lSiv3D
+-lfreetype
+-lgif
+-lharfbuzz
+-lopencv_core
+-lopencv_imgproc
+-lopencv_objdetect
+-lopencv_photo
+-lturbojpeg
+-ltiff
+-lopusfile
+-lopus
+-lwebp
+
+--emrun
+-s FULL_ES3=1
+-s MIN_WEBGL_VERSION=2
+-s MAX_WEBGL_VERSION=2
+-s USE_GLFW=3
+-s USE_SDL=2
+-s USE_LIBPNG=1
+-s USE_OGG=1
+-s USE_VORBIS=1
+-s ALLOW_MEMORY_GROWTH=1
+-s ERROR_ON_UNDEFINED_SYMBOLS=0
+
+-s EXCEPTION_CATCHING_ALLOWED=["InitSiv3D"]
+
+-s ASYNCIFY=1
+-s ASYNCIFY_IGNORE_INDIRECT=1
+-s ASYNCIFY_IMPORTS="['siv3dRequestAnimationFrame','siv3dOpenDialog','siv3dDecodeAudioFromFile','siv3dGetClipboardText']"
+-s ASYNCIFY_ADD="['main','Main()','s3d::System::Update()','s3d::AACDecoder::decode(*) const','s3d::MP3Decoder::decode(*) const','s3d::CAudioDecoder::decode(*)','s3d::AudioDecoder::Decode(*)','s3d::Wave::Wave(*)','s3d::Audio::Audio(*)','s3d::Clipboard::GetText(*)','s3d::CClipboard::getText(*)']"
+
+-s MODULARIZE=1
+--preload-file OpenSiv3D/example@/example
+--preload-file OpenSiv3D/resources@/resources
+--shell-file template-web-player.html
+--pre-js OpenSiv3D/lib/Siv3D.pre.js
+--post-js template-web-player.js
+--js-library OpenSiv3D/lib/Siv3D.js

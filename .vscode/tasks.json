@@ -8,21 +8,9 @@
             "label": "Build: Compile (Debug)",
             "command": "em++",
             "args": [
-                // Input
-                "Main.cpp", 
-
-                // Output
-                "-c", "-o", "Main.o",
-
-                // Compiler Flags
+                "Main.cpp", "-c", "-o", "Main.o",
                 "-O0", "-std=c++2a", "-g",
-                "-D_XM_NO_INTRINSICS_",
-
-                // Include Directory
-                "-IOpenSiv3D/include",  
-                "-IOpenSiv3D/include/ThirdParty",  
-
-                // em++ Specific Configurations
+                "@.vscode/Compile.Debug.rsp"
             ],
             "group": "build"
         },
@@ -32,67 +20,9 @@
             "command": "em++",
             "args": 
             [
-                // Input
-                "Main.o",
-
-                // Output
-                "-o", "index.html",
-
-                // Compiler Flags
-                "-O0", "-std=c++2a", "-g",
-
-                // Library Directory
-                "-LOpenSiv3D/lib",
-                "-LOpenSiv3D/lib/freetype",
-                "-LOpenSiv3D/lib/giflib",
-                "-LOpenSiv3D/lib/harfbuzz",
-                "-LOpenSiv3D/lib/opencv",
-                "-LOpenSiv3D/lib/opus",
-                "-LOpenSiv3D/lib/tiff",
-                "-LOpenSiv3D/lib/turbojpeg",
-                "-LOpenSiv3D/lib/webp",
-
-                // Dependent Libraries
-                "-lSiv3D",
-                "-lfreetype",
-                "-lgif",
-                "-lharfbuzz",
-                "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
-                "-lturbojpeg",
-                "-ltiff",
-                "-lopusfile", "-lopus",
-                "-lwebp",
-
-                // em++ Specific Configurations
-                "--emrun",
-                "-s", "FULL_ES3=1",
-                "-s", "MIN_WEBGL_VERSION=2",
-                "-s", "MAX_WEBGL_VERSION=2",
-                "-s", "USE_GLFW=3",
-                "-s", "USE_SDL=2",
-                "-s", "USE_LIBPNG=1",
-                "-s", "USE_OGG=1",
-                "-s", "USE_VORBIS=1",
-                "-s", "ALLOW_MEMORY_GROWTH=1",
-                "-s", "ERROR_ON_UNDEFINED_SYMBOLS=0",
-
-                // Exception
-                "-s", "EXCEPTION_CATCHING_ALLOWED=[\"InitSiv3D\"]",
-
-                // Asyncify
-                "-s", "ASYNCIFY=1", "-s", "ASYNCIFY_IGNORE_INDIRECT=1",
-                "-s", "ASYNCIFY_IMPORTS=\"['siv3dRequestAnimationFrame','siv3dOpenDialog','siv3dDecodeAudioFromFile','siv3dGetClipboardText']\"",
-                "-s", "ASYNCIFY_ADD=\"['main','Main()','s3d::System::Update()','s3d::AACDecoder::decode(*) const','s3d::MP3Decoder::decode(*) const','s3d::CAudioDecoder::decode(*)','s3d::AudioDecoder::Decode(*)','s3d::Wave::Wave(*)','s3d::Audio::Audio(*)','s3d::Clipboard::GetText(*)','s3d::CClipboard::getText(*)']\"",
-
-                // Packaging Configurations
-                "-s", "MODULARIZE=1",
-                "--source-map-base", "http://localhost:8080/",
-                "--preload-file", "OpenSiv3D/example@/example",
-                "--preload-file", "OpenSiv3D/resources@/resources",
-                "--shell-file", "template-web-player.html",
-                "--pre-js", "OpenSiv3D/lib/Siv3D.pre.js",
-                "--post-js", "template-web-player.js",
-                "--js-library", "OpenSiv3D/lib/Siv3D.js",
+                "Main.o", "-o", "index.html",
+                "-O0", "-g",
+                "@.vscode/Link.Debug.rsp"
             ],
             "group": "build"
         },
@@ -101,21 +31,9 @@
             "label": "Build: Compile (Release)",
             "command": "em++",
             "args": [
-                // Input
-                "Main.cpp", 
-
-                // Output
-                "-c", "-o", "Main.o",
-
-                // Compiler Flags
+                "Main.cpp", "-c", "-o", "Main.o",
                 "-O2", "-std=c++2a",
-                "-D_XM_NO_INTRINSICS_",
-
-                // Include Directory
-                "-IOpenSiv3D/include",  
-                "-IOpenSiv3D/include/ThirdParty",  
-
-                // em++ Specific Configurations
+                "@.vscode/Compile.Release.rsp"
             ],
             "group": "build"
         },
@@ -125,63 +43,9 @@
             "command": "em++",
             "args": 
             [
-                // Input
-                "Main.o",
-
-                // Output
-                "-o", "index.html",
-
-                // Compiler Flags
-                "-O2", "-std=c++2a",
-
-                // Library Directory
-                "-LOpenSiv3D/lib",
-                "-LOpenSiv3D/lib/freetype",
-                "-LOpenSiv3D/lib/giflib",
-                "-LOpenSiv3D/lib/harfbuzz",
-                "-LOpenSiv3D/lib/opencv",
-                "-LOpenSiv3D/lib/opus",
-                "-LOpenSiv3D/lib/tiff",
-                "-LOpenSiv3D/lib/turbojpeg",
-                "-LOpenSiv3D/lib/webp",
-
-                // Dependent Libraries
-                "-lSiv3D",
-                "-lfreetype",
-                "-lgif",
-                "-lharfbuzz",
-                "-lopencv_core", "-lopencv_imgproc", "-lopencv_objdetect", "-lopencv_photo",
-                "-lturbojpeg",
-                "-ltiff",
-                "-lopusfile", "-lopus",
-                "-lwebp",
-
-                // em++ Specific Configurations
-                "--emrun",
-                "-s", "FULL_ES3=1",
-                "-s", "MIN_WEBGL_VERSION=2",
-                "-s", "MAX_WEBGL_VERSION=2",
-                "-s", "USE_GLFW=3",
-                "-s", "USE_SDL=2",
-                "-s", "USE_LIBPNG=1",
-                "-s", "USE_OGG=1",
-                "-s", "USE_VORBIS=1",
-                "-s", "ALLOW_MEMORY_GROWTH=1",
-                "-s", "ERROR_ON_UNDEFINED_SYMBOLS=0",
-
-                // Asyncify
-                "-s", "ASYNCIFY=1", "-s", "ASYNCIFY_IGNORE_INDIRECT=1",
-                "-s", "ASYNCIFY_IMPORTS=\"['siv3dRequestAnimationFrame','siv3dOpenDialog','siv3dDecodeAudioFromFile','siv3dGetClipboardText']\"",
-                "-s", "ASYNCIFY_ADD=\"['main','Main()','s3d::System::Update()','s3d::AACDecoder::decode(*) const','s3d::MP3Decoder::decode(*) const','s3d::CAudioDecoder::decode(*)','s3d::AudioDecoder::Decode(*)','s3d::Wave::Wave(*)','s3d::Audio::Audio(*)','s3d::Clipboard::GetText(*)','s3d::CClipboard::getText(*)']\"",
-
-                // Packaging Configurations
-                "-s", "MODULARIZE=1",
-                "--preload-file", "OpenSiv3D/example@/example",
-                "--preload-file", "OpenSiv3D/resources@/resources",
-                "--shell-file", "template-web-player.html",
-                "--pre-js", "OpenSiv3D/lib/Siv3D.pre.js",
-                "--post-js", "template-web-player.js",
-                "--js-library", "OpenSiv3D/lib/Siv3D.js",
+                "Main.o", "-o", "index.html",
+                "-O2",
+                "@.vscode/Link.Release.rsp"
             ],
             "group": "build"
         },

@@ -1,0 +1,27 @@
+name: Deploy GitHub
+
+on:
+  push: [ * ]
+
+jobs:
+  build:
+    container: 
+      image: 'emscripten/emsdk:2.0.22'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          mkdir build
+          emcc Main.cpp -c -o Main.o -std=c++2a -O2 @.vscode/Compile.Release.rsp
+          emcc Main.o -o build/index.html -O2 @.vscode/Link.Release.rsp
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          keep_files: true
