@@ -1,7 +1,6 @@
 name: Deploy GitHub
 
-on:
-  push: [ * ]
+on: [ push ]
 
 jobs:
   build:
