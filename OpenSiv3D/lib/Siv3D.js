@@ -1094,4 +1094,15 @@ mergeInto(LibraryManager.library, {
     },
     siv3dDecodeAudioFromFile__sig: "vii",
 #endif
+    glTexImage2D: function(target, level, internalFormat, width, height, border, format, type, pixels) {
+        if (GLctx.currentPixelUnpackBufferBinding) {
+            GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, pixels);
+        } else if (pixels) {
+            var heap = heapObjectForWebGLType(type);
+            var typedHeap = new Uint8Array(heap.buffer, pixels >> heapAccessShiftForWebGLHeap(heap));
+            GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, typedHeap, 0);
+        } else {
+            GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, null);
+        }
+    },
 })
