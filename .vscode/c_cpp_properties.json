@@ -1,32 +1,25 @@
 {
     "configurations": [
         {
-            "name": "Emscripten",
+            "name": "Emscripten on Windows",
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/OpenSiv3D/include",
-                "${workspaceFolder}/OpenSiv3D/include/ThirdParty",
-                "${env:EMSDK}/upstream/emscripten/cache/sysroot/include/c++/v1",
-                "${env:EMSDK}/upstream/emscripten/cache/sysroot/include/compat",
-                "${env:EMSDK}/upstream/emscripten/cache/sysroot/include",
-                "${env:EMSDK}/upstream/lib/clang/13.0.0/include",
-                "${env:EMSDK}/upstream/emscripten/system/include",
-                "${env:EMSDK}/upstream/emscripten/system/include/libc",
-                "${env:EMSDK}/upstream/emscripten/system/include/libcxx",
-                "${env:EMSDK}/upstream/emscripten/system/include/compat",
-                "${env:EMSDK}/upstream/emscripten/system/lib/libcxxabi/include",
-                "${env:EMSDK}/upstream/emscripten/system/lib/libc/musl/arch/emscripten"
+                "${workspaceFolder}/OpenSiv3D/include/ThirdParty"
             ],
-            "forcedInclude": [
-                "${workspaceFolder}/.vscode/Undefs.h"
+            "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc.bat",
+            "cStandard": "c11",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "clang-x86"
+        },
+        {
+            "name": "Emscripten on macOS/Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/OpenSiv3D/include",
+                "${workspaceFolder}/OpenSiv3D/include/ThirdParty"
             ],
-            "defines": [
-                "EMSCRIPTEN=1",
-                "__EMSCRIPTEN__=1",
-                "WASM=1",
-                "__WASM=1",
-                "__WASM__=1"
-            ],
+            "compilerPath": "${env:EMSDK}/upstream/emscripten/emcc",
             "cStandard": "c11",
             "cppStandard": "c++20",
             "intelliSenseMode": "clang-x86"
