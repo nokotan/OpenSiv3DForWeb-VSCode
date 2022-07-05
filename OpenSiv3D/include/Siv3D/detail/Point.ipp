@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -266,6 +266,17 @@ namespace s3d
 	{
 		x += p.x; y += p.y;
 		return *this;
+	}
+
+	template <class Type>
+	inline constexpr Type Point::horizontalAspectRatio() const noexcept
+	{
+		if (y == 0)
+		{
+			return 0;
+		}
+
+		return (static_cast<Type>(x) / y);
 	}
 
 	template <class Type>

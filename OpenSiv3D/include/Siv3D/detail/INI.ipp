@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -69,9 +69,9 @@ namespace s3d
 		return hasValue(SectionView{}, name);
 	}
 
-	inline const String& INI::getGlobalValue(const NameView name)
+	inline const String& INI::getGlobalValue(const NameView name) const
 	{
-		return getValue(SectionView(), name);
+		return getValue(SectionView{}, name);
 	}
 
 	inline const INI::Value& INI::operator [](const Section_Dot_NameView section_dot_name) const

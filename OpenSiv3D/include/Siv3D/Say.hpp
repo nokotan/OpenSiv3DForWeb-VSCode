@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -39,28 +39,28 @@ namespace s3d
 
 		struct Say_impl
 		{
-			void operator()(const char32_t* s) const;
+			void operator ()(const char32_t* s) const;
 
-			void operator()(StringView s) const;
+			void operator ()(StringView s) const;
 
-			void operator()(const String& s) const;
+			void operator ()(const String& s) const;
 
 		# if __cpp_lib_concepts
 
 			template <Concept::Formattable... Args>
-			void operator()(const Args&... args) const
+			void operator ()(const Args&... args) const
 			{
 				return write(Format(args..., U'\n'));
 			}
 
 			// Format できない値が Say() に渡されたときに発生するエラーです
 			template <class... Args>
-			void operator()(const Args&... args) const = delete;
+			void operator ()(const Args&... args) const = delete;
 
 		# else
 
 			template <class... Args>
-			void operator()(const Args&... args) const
+			void operator ()(const Args&... args) const
 			{
 				return write(Format(args..., U'\n'));
 			}
@@ -83,5 +83,6 @@ namespace s3d
 		};
 	}
 
+	/// @brief テキスト読み上げを行うオブジェクトです。`<<` で値を送ります。
 	inline constexpr auto Say = detail::Say_impl{};
 }

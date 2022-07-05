@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -34,19 +34,32 @@ namespace s3d
 			PlatformDefault = 0,
 
 			/// @brief 非グラフィックスモード
+			/// @remark 対応: Windows / macOS / Linux
 			Headless = 1,
 
-			/// @brief OpenGL
+			/// @brief OpenGL 4.1
+			/// @remark 対応: Windows / macOS / Linux
 			OpenGL = 2,
 
 			/// @brief Direc3D 11
+			/// @remark 対応: Windows
 			Direct3D11 = 3,
 
 			/// @brief Metal (未完成のため現在使用できません)
+			/// @remark 対応: なし
 			Metal = 4,
 
+			/// @brief OpenGL ES 3.0
+			/// @remark 対応: Linux / Web
+			OpenGLES = 5,
+
 			/// @brief WebGL
-			WebGL2 = 5,
+			/// @remark 対応: Linux / Web
+			WebGL2 = OpenGLES,
+
+			/// @brief WebGPU
+			/// @remark 対応: Web
+			WebGPU = 6,
 		};
 
 		/// @brief Direct3D 11 ドライバーの種類 (Windows 版)

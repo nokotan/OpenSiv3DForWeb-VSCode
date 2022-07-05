@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -52,9 +52,9 @@ namespace s3d
 
 		JSONIterator& operator =(const JSONIterator& rhs);
 
-		JSONIterator& operator++();
+		JSONIterator& operator ++();
 
-		JSONIterator operator++(int);
+		JSONIterator operator ++(int);
 
 		[[nodiscard]]
 		JSONIterator operator +(size_t index) const;
@@ -94,9 +94,9 @@ namespace s3d
 
 		JSONConstIterator& operator =(const JSONConstIterator& rhs);
 
-		JSONConstIterator& operator++();
+		JSONConstIterator& operator ++();
 
-		JSONConstIterator operator++(int);
+		JSONConstIterator operator ++(int);
 
 		[[nodiscard]]
 		JSONConstIterator operator +(size_t index) const;
@@ -136,9 +136,9 @@ namespace s3d
 
 		JSONIterationProxy& operator =(const JSONIterationProxy& rhs);
 
-		JSONIterationProxy& operator++();
+		JSONIterationProxy& operator ++();
 
-		JSONIterationProxy operator++(int);
+		JSONIterationProxy operator ++(int);
 
 		[[nodiscard]]
 		JSONIterationProxy operator +(size_t index) const;
@@ -379,6 +379,8 @@ namespace s3d
 		JSON access(StringView jsonPointer);
 
 		const JSON access(StringView jsonPointer) const;
+
+		void push_back(const JSON& value);
 
 		void clear() const;
 

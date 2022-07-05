@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -222,10 +222,10 @@ namespace s3d
 					cols[3] = 255;
 				}
 
-				value.r = cols[0];
-				value.g = cols[1];
-				value.b = cols[2];
-				value.a = cols[3];
+				value.r = static_cast<uint8>(cols[0]);
+				value.g = static_cast<uint8>(cols[1]);
+				value.b = static_cast<uint8>(cols[2]);
+				value.a = static_cast<uint8>(cols[3]);
 			}
 
 			return input;
@@ -280,7 +280,7 @@ template <>
 struct std::hash<s3d::Color>
 {
 	[[nodiscard]]
-	size_t operator()(const s3d::Color& value) const noexcept
+	size_t operator ()(const s3d::Color& value) const noexcept
 	{
 		return value.hash();
 	}

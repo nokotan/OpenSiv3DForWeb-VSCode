@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -22,6 +22,8 @@ namespace s3d
 	{
 		/// @brief OpenSiv3D 標準絵文字のサイズ（ピクセル）
 		static constexpr Size ImageSize{ 136, 128 };
+
+		static constexpr double HorizontalAspectRatio = ImageSize.horizontalAspectRatio();
 
 		/// @brief 絵文字のコードポイント
 		String codePoints;

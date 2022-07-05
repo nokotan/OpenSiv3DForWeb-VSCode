@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -169,22 +169,22 @@ namespace s3d
 
 	inline constexpr RoundRect RoundRect::stretched(const value_type size) const noexcept
 	{
-		return RoundRect(rect.stretched(size), r);
+		return RoundRect{ rect.stretched(size), r };
 	}
 
 	inline constexpr RoundRect RoundRect::stretched(const value_type _x, const value_type _y) const noexcept
 	{
-		return RoundRect(rect.stretched(_x, _y), r);
+		return RoundRect{ rect.stretched(_x, _y), r };
 	}
 
 	inline constexpr RoundRect RoundRect::stretched(const size_type xy) const noexcept
 	{
-		return RoundRect(rect.stretched(xy.x, xy.y), r);
+		return RoundRect{ rect.stretched(xy.x, xy.y), r };
 	}
 
 	inline constexpr RoundRect RoundRect::stretched(const value_type top, const value_type right, const value_type bottom, const value_type left) const noexcept
 	{
-		return RoundRect(rect.stretched(top, right, bottom, left), r);
+		return RoundRect{ rect.stretched(top, right, bottom, left), r };
 	}
 
 	inline constexpr RoundRect::position_type RoundRect::topCenter() const noexcept
@@ -212,14 +212,19 @@ namespace s3d
 		return rect.center();
 	}
 
-	inline constexpr double RoundRect::area() const noexcept
+	inline constexpr RoundRect::value_type RoundRect::area() const noexcept
 	{
 		return (rect.area() - (4 - Math::Pi) * r * r);
 	}
 
-	inline constexpr double RoundRect::perimeter() const noexcept
+	inline constexpr RoundRect::value_type RoundRect::perimeter() const noexcept
 	{
 		return (rect.perimeter() + r * (2 * Math::Pi - 8));
+	}
+
+	inline constexpr RoundRect::value_type RoundRect::horizontalAspectRatio() const noexcept
+	{
+		return rect.horizontalAspectRatio();
 	}
 
 	inline constexpr RoundRect RoundRect::lerp(const RoundRect& other, const double f) const noexcept

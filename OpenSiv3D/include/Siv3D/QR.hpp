@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -27,36 +27,36 @@ namespace s3d
 		/// @brief QR コードの最大サイズを示す番号
 		inline constexpr int32 MaxVersion = 40;
 
-		/// @brief 
-		/// @param s 
-		/// @param ec 
-		/// @param minVersion 
-		/// @return 
+		/// @brief 数字から構成される文字列から QR データを作成します。
+		/// @param s 文字列
+		/// @param ec 誤り訂正レベル
+		/// @param minVersion QR コードの最小サイズ
+		/// @return QR データを保持する二次元配列
 		[[nodiscard]]
 		Grid<bool> EncodeNumber(StringView s, QRErrorCorrection ec = QRErrorCorrection::Low, int32 minVersion = MinVersion);
 
-		/// @brief 
-		/// @param s 
-		/// @param ec 
-		/// @param minVersion 
-		/// @return 
+		/// @brief 英数字から構成される文字列から QR データを作成します。
+		/// @param s 文字列
+		/// @param ec 誤り訂正レベル
+		/// @param minVersion QR コードの最小サイズ
+		/// @return QR データを保持する二次元配列
 		[[nodiscard]]
 		Grid<bool> EncodeAlnum(StringView s, QRErrorCorrection ec = QRErrorCorrection::Low, int32 minVersion = MinVersion);
 
-		/// @brief 
-		/// @param s 
-		/// @param ec 
-		/// @param minVersion 
-		/// @return 
+		/// @brief 文字列から QR データを作成します。
+		/// @param s 文字列
+		/// @param ec 誤り訂正レベル
+		/// @param minVersion QR コードの最小サイズ
+		/// @return QR データを保持する二次元配列
 		[[nodiscard]]
 		Grid<bool> EncodeText(StringView s, QRErrorCorrection ec = QRErrorCorrection::Low, int32 minVersion = MinVersion);
 
-		/// @brief 
-		/// @param data 
-		/// @param size 
-		/// @param ec 
-		/// @param minVersion 
-		/// @return 
+		/// @brief バイナリデータから QR データを作成します。
+		/// @param data バイナリデータの先頭ポインタ
+		/// @param size バイナリデータのサイズ（バイト）
+		/// @param ec 誤り訂正レベル
+		/// @param minVersion QR コードの最小サイズ
+		/// @return QR データを保持する二次元配列
 		[[nodiscard]]
 		Grid<bool> EncodeBinary(const void* data, size_t size, QRErrorCorrection ec = QRErrorCorrection::Low, int32 minVersion = MinVersion);
 

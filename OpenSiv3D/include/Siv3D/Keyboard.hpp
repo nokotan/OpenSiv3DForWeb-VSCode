@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -13,6 +13,7 @@
 # include "Common.hpp"
 # include "Array.hpp"
 # include "InputGroups.hpp"
+# include "KeyEvent.hpp"
 
 namespace s3d
 {
@@ -23,6 +24,16 @@ namespace s3d
 		[[nodiscard]]
 		const Array<Input>& GetAllInputs() noexcept;
 	}	
+
+# if SIV3D_PLATFORM(WINDOWS)
+
+	namespace Platform::Windows::Keyboard
+	{
+		[[nodiscard]]
+		Array<KeyEvent> GetEvents();
+	}
+
+# endif
 	
 	/// @brief Ctrl + break キー
 	inline constexpr Input KeyCancel{ InputDeviceType::Keyboard, 0x03 };
@@ -405,6 +416,6 @@ namespace s3d
 	/// @brief US ' キー
 	inline constexpr Input KeyApostrophe_US{ InputDeviceType::Keyboard, 0xDE };
 
-	/// @brief @brief JIS \ キー
+	/// @brief JIS \ キー
 	inline constexpr Input KeyUnderscore_JIS{ InputDeviceType::Keyboard, 0xE2 };
 }

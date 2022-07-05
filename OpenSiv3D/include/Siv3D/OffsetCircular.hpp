@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -158,7 +158,7 @@ template <class Float, s3d::int32 Oclock>
 struct std::hash<s3d::OffsetCircularBase<Float, Oclock>>
 {
 	[[nodiscard]]
-	size_t operator()(const s3d::OffsetCircularBase<Float, Oclock>& value) const noexcept
+	size_t operator ()(const s3d::OffsetCircularBase<Float, Oclock>& value) const noexcept
 	{
 		return value.hash();
 	}

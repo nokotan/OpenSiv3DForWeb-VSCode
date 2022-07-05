@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -262,7 +262,7 @@ namespace s3d
 		return Max({ r, g, b ,a });
 	}
 
-	inline constexpr ColorF ColorF::lerp(const ColorF& other, double f) const noexcept
+	inline constexpr ColorF ColorF::lerp(const ColorF& other, const double f) const noexcept
 	{
 		return{ r + (other.r - r) * f,
 				g + (other.g - g) * f,
@@ -270,7 +270,7 @@ namespace s3d
 				a + (other.a - a) * f };
 	}
 
-	inline ColorF ColorF::gamma(double gamma) const noexcept
+	inline ColorF ColorF::gamma(const double gamma) const noexcept
 	{
 		if (gamma <= 0.0)
 		{

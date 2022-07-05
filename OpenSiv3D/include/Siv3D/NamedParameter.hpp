@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -108,7 +108,7 @@ namespace s3d
 
 		template <class... Args>
 		[[nodiscard]]
-		constexpr NamedParameter<Tag, std::tuple<std::decay_t<Args >...>> operator() (Args&&... args) const
+		constexpr NamedParameter<Tag, std::tuple<std::decay_t<Args >...>> operator ()(Args&&... args) const
 		{
 			return NamedParameter<Tag, std::tuple<std::decay_t<Args >...>>(std::make_tuple(std::forward<Args>(args)...));
 		}
@@ -122,7 +122,7 @@ namespace s3d
 
 		template <class Type>
 		[[nodiscard]]
-		constexpr NamedParameter<Tag, Type&> operator()(std::reference_wrapper<Type> value) const
+		constexpr NamedParameter<Tag, Type&> operator ()(std::reference_wrapper<Type> value) const
 		{
 			return NamedParameter<Tag, Type&>(value.get());
 		}

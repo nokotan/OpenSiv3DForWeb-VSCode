@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -55,6 +55,8 @@ namespace s3d
 		/// @remark カメラは一定の時間をかけて目標の座標に移動します。
 		void setTargetCenter(Vec2 targetCenter) noexcept;
 
+		/// @brief 現在の目標中心座標を返します。
+		/// @return 現在の目標中心座標
 		const Vec2& getTargetCenter() const noexcept;
 
 		/// @brief カメラのズームアップ倍率の目標を設定します。
@@ -62,6 +64,8 @@ namespace s3d
 		/// @remark カメラは一定の時間をかけて目標のズーム倍率になります。
 		void setTargetScale(double targetScale) noexcept;
 
+		/// @brief 現在の目標ズームアップ倍率を返します。
+		/// @return 現在の目標ズームアップ倍率
 		double getTargetScale() const noexcept;
 
 		/// @brief 指定した中心座標とズーム倍率を即座に適用します。

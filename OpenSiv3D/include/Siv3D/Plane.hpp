@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -18,6 +18,7 @@
 namespace s3d
 {
 	class Texture;
+	struct TextureRegion;
 	struct Quaternion;
 	struct Mat4x4;
 	struct Ray;
@@ -194,26 +195,38 @@ namespace s3d
 
 		const Plane& draw(const Texture& texture, const ColorF& color = Palette::White) const;
 
+		const Plane& draw(const TextureRegion& textureRegion, const ColorF& color = Palette::White) const;
+
 		const Plane& draw(const Quaternion& rotation, const ColorF& color = Palette::White) const;
 
 		const Plane& draw(const Quaternion& rotation, const Texture& texture, const ColorF& color = Palette::White) const;
 
+		const Plane& draw(const Quaternion& rotation, const TextureRegion& textureRegion, const ColorF& color = Palette::White) const;
+
 		const Plane& draw(const Mat4x4& mat, const ColorF& color = Palette::White) const;
 
 		const Plane& draw(const Mat4x4& mat, const Texture& texture, const ColorF& color = Palette::White) const;
+
+		const Plane& draw(const Mat4x4& mat, const TextureRegion& textureRegion, const ColorF& color = Palette::White) const;
 
 
 		const Plane& draw(const PhongMaterial& material) const;
 
 		const Plane& draw(const Texture& texture, const PhongMaterial& material) const;
 
+		const Plane& draw(const TextureRegion& textureRegion, const PhongMaterial& material) const;
+
 		const Plane& draw(const Quaternion& rotation, const PhongMaterial& material) const;
 
 		const Plane& draw(const Quaternion& rotation, const Texture& texture, const PhongMaterial& material) const;
 
+		const Plane& draw(const Quaternion& rotation, const TextureRegion& textureRegion, const PhongMaterial& material) const;
+
 		const Plane& draw(const Mat4x4& mat, const PhongMaterial& material) const;
 
 		const Plane& draw(const Mat4x4& mat, const Texture& texture, const PhongMaterial& material) const;
+
+		const Plane& draw(const Mat4x4& mat, const TextureRegion& textureRegion, const PhongMaterial& material) const;
 
 
 

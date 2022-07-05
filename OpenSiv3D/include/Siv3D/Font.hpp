@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -18,6 +18,7 @@
 # include "GlyphCluster.hpp"
 # include "OutlineGlyph.hpp"
 # include "PolygonGlyph.hpp"
+# include "MeshGlyph.hpp"
 # include "BitmapGlyph.hpp"
 # include "SDFGlyph.hpp"
 # include "MSDFGlyph.hpp"
@@ -144,6 +145,12 @@ namespace s3d
 		[[nodiscard]]
 		int32 height() const;
 
+		/// @brief 指定したフォントサイズでテキストを描画するときのフォントの高さ（ピクセル）を返します。
+		/// @param size 描画するフォントサイズ
+		/// @return フォントの高さ（ピクセル）
+		[[nodiscard]]
+		double height(double size) const;
+
 		/// @brief 半角スペースの幅（ピクセル）を返します。
 		/// @return 半角スペースの幅（ピクセル）
 		[[nodiscard]]
@@ -205,9 +212,10 @@ namespace s3d
 		/// @brief 文字列に対応するグリフクラスターを返します。
 		/// @param s 文字列
 		/// @param useFallback フォールバックフォントを使用するか
+		/// @param ligature リガチャ（合字）を有効にするか
 		/// @return 文字列に対応するグリフクラスター
 		[[nodiscard]]
-		Array<GlyphCluster> getGlyphClusters(StringView s, UseFallback useFallback = UseFallback::Yes) const;
+		Array<GlyphCluster> getGlyphClusters(StringView s, UseFallback useFallback = UseFallback::Yes, Ligature ligature = Ligature::Yes) const;
 
 		/// @brief 指定した文字のグリフ情報を返します。
 		/// @param ch 文字
@@ -253,9 +261,10 @@ namespace s3d
 		/// @brief 指定した文字列のすべての文字の輪郭グリフの配列を作成して返します。
 		/// @param s 文字列
 		/// @param closeRing 各輪郭の頂点配列について、末尾の頂点を先頭の頂点と一致させるか
+		/// @param ligature リガチャ（合字）を有効にするか
 		/// @return 文字の輪郭グリフの配列
 		[[nodiscard]]
-		Array<OutlineGlyph> renderOutlines(StringView s, CloseRing closeRing = CloseRing::No) const;
+		Array<OutlineGlyph> renderOutlines(StringView s, CloseRing closeRing = CloseRing::No, Ligature ligature = Ligature::Yes) const;
 
 		/// @brief 指定した文字のポリゴングリフを作成して返します。
 		/// @param ch 文字
@@ -278,9 +287,40 @@ namespace s3d
 
 		/// @brief 指定した文字列のすべての文字のポリゴングリフの配列を作成して返します。
 		/// @param s 文字列
+		/// @param ligature リガチャ（合字）を有効にするか
 		/// @return 文字のポリゴングリフの配列
 		[[nodiscard]]
-		Array<PolygonGlyph> renderPolygons(StringView s) const;
+		Array<PolygonGlyph> renderPolygons(StringView s, Ligature ligature = Ligature::Yes) const;
+
+		/// @brief 指定した文字のメッシュグリフを作成して返します。
+		/// @param ch 文字
+		/// @param size フォントのサイズ
+		/// @return 文字のポリゴングリフ
+		[[nodiscard]]
+		MeshGlyph createMesh(char32 ch, double size = 1.0) const;
+
+		/// @brief 指定した文字のメッシュグリフを作成して返します。
+		/// @param ch 文字
+		/// @param size フォントのサイズ
+		/// @remark char32 型の要素 1 つでは表現できない文字のための関数です。
+		/// @return 文字のポリゴングリフ
+		[[nodiscard]]
+		MeshGlyph createMesh(StringView ch, double size = 1.0) const;
+
+		/// @brief 指定した文字のメッシュグリフを作成して返します。
+		/// @param glyphIndex 文字のグリフインデックス
+		/// @param size フォントのサイズ
+		/// @return 文字のポリゴングリフ
+		[[nodiscard]]
+		MeshGlyph createMeshByGlyphIndex(GlyphIndex glyphIndex, double size = 1.0) const;
+
+		/// @brief 指定した文字列のすべての文字のメッシュグリフの配列を作成して返します。
+		/// @param s 文字列
+		/// @param size フォントのサイズ
+		/// @param ligature リガチャ（合字）を有効にするか
+		/// @return 文字のメッシュグリフの配列		
+		[[nodiscard]]
+		Array<MeshGlyph> createMeshes(StringView s, double size = 1.0, Ligature ligature = Ligature::Yes) const;
 
 		/// @brief 指定した文字の Bitmap グリフを作成して返します。
 		/// @param ch 文字
@@ -386,21 +426,22 @@ namespace s3d
 
 		/// @brief 指定した文字列の描画用のグリフ配列を返します。
 		/// @param s 文字列
+		/// @param ligature リガチャ（合字）を有効にするか
 		/// @return 指定した文字列の描画用のグリフ配列
 		[[nodiscard]]
-		Array<Glyph> getGlyphs(StringView s) const;
+		Array<Glyph> getGlyphs(StringView s, Ligature ligature = Ligature::No) const;
 
 		/// @brief フォントを描画するために必要な DrawableText を、文字列から構築します。
 		/// @param text 文字列
 		/// @return DrawableText
 		[[nodiscard]]
-		DrawableText operator()(const String& text) const;
+		DrawableText operator ()(const String& text) const;
 
 		/// @brief フォントを描画するために必要な DrawableText を、文字列から構築します。
 		/// @param text 文字列
 		/// @return DrawableText
 		[[nodiscard]]
-		DrawableText operator()(String&& text) const;
+		DrawableText operator ()(String&& text) const;
 
 		/// @brief フォントを描画するために必要な DrawableText を、一連の引数を文字列に変換することで構築します。
 		/// @tparam ...Args 引数の型
@@ -408,7 +449,7 @@ namespace s3d
 		/// @return DrawableText
 		template <class ... Args>
 		[[nodiscard]]
-		DrawableText operator()(const Args& ... args) const;
+		DrawableText operator ()(const Args& ... args) const;
 
 		void swap(Font& other) noexcept;
 
@@ -419,6 +460,9 @@ namespace s3d
 		/// @return 指定した設定でのテキスト描画用の標準ピクセルシェーダ
 		[[nodiscard]]
 		static const PixelShader& GetPixelShader(FontMethod method, TextStyle::Type type = TextStyle::Type::Default, HasColor hasColor = HasColor::No);
+
+		[[nodiscard]]
+		static bool IsAvailable(Typeface typeface);
 	};
 }
 

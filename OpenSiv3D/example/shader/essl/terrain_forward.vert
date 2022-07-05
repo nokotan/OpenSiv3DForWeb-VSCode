@@ -1,15 +1,8 @@
 # version 300 es
 
-//-----------------------------------------------
-//
-//	This file is part of the Siv3D Engine.
-//
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
-//
+//	Copyright (c) 2008-2022 Ryo Suzuki.
+//	Copyright (c) 2016-2022 OpenSiv3D Project.
 //	Licensed under the MIT License.
-//
-//-----------------------------------------------
 
 precision mediump float;
 
@@ -46,16 +39,22 @@ layout(std140) uniform VSPerObject // slot 2
 	mat4x4 g_localToWorld;
 };
 
+layout(std140) uniform VSPerMaterial // slot 3
+{
+	vec4 g_uvTransform;
+};
+
 //
 //	Functions
 //
 void main()
 {
-	float height = texture(Texture8, VertexUV).r;
+	vec2 uv =  (VertexUV * g_uvTransform.xy + g_uvTransform.zw);
+	float height = texture(Texture8, uv).r;
 	vec4 pos = vec4(VertexPosition.x, height, VertexPosition.zw);
 	vec4 worldPosition = pos * g_localToWorld;
 
 	gl_Position		= worldPosition * g_worldToProjected;
 	WorldPosition	= worldPosition.xyz;
-	UV				= VertexUV;
+	UV				= uv;
 }

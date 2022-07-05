@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -79,8 +79,10 @@
 
 # elif SIV3D_PLATFORM(LINUX)
 
-	# undef  SIV3D_INTRINSIC_PRIVATE_DEFINITION_SSE
-	# define SIV3D_INTRINSIC_PRIVATE_DEFINITION_SSE()	1
+	# if defined(__SSE4_2__) && __SSE4_2__
+		# undef  SIV3D_INTRINSIC_PRIVATE_DEFINITION_SSE
+		# define SIV3D_INTRINSIC_PRIVATE_DEFINITION_SSE()	1
+	# endif
 
 # elif SIV3D_PLATFORM(WEB)
 
@@ -125,11 +127,11 @@
 //
 //////////////////////////////////////////////////
 
-# if SIV3D_PLATFORM(WINDOWS) && (_MSC_VER < 1929) // 古い Visual Studio | Old MSVC
+# if SIV3D_PLATFORM(WINDOWS) && (_MSC_VER < 1932) // 古い Visual Studio | Old MSVC
 
 	// お使いの Visual Studio のバージョンが古い場合、このエラーが発生します
 	// This error occures when your Visual Studio version is not up to date.
-	# error Please update the Visual Studio. Visual Studio 2019 16.10 or later is required to build this project.
+	# error Please update the Visual Studio. Visual Studio 2022 17.2 or later is required to build this project.
 
 # endif
 

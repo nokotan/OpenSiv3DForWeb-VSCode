@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -45,7 +45,7 @@ namespace s3d
 
 			/// @brief アプリケーションを終了させるためのユーザアクションを設定しないことを示します。 | None.
 			/// @remark System::SetTerminationTriggers() にこの定数のみを渡した場合、メインループから抜けるには break や return を使うか、System::Exit() を呼ぶ必要があります。
-			/// @reamrk When this flag is set exclusively, you must explicitly call System::Exit() to exit the main loop.
+			/// @remark When this flag is set exclusively, you must explicitly call System::Exit() to exit the main loop.
 			NoAction = 0u,
 		};
 	};

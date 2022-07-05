@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -178,40 +178,40 @@ namespace s3d
 		}
 	}
 
-	template <class Type>
-	inline constexpr bool operator ==(const Optional<Type>& lhs, const Optional<Type>& rhs)
+	template <class Type1, class Type2>
+	inline constexpr bool operator ==(const Optional<Type1>& lhs, const Optional<Type2>& rhs)
 	{
 		const bool lhs_has_value = lhs.has_value();
 		return lhs_has_value == rhs.has_value() && (!lhs_has_value || (*lhs == *rhs));
 	}
 
-	template <class Type>
-	inline constexpr bool operator !=(const Optional<Type>& lhs, const Optional<Type>& rhs)
+	template <class Type1, class Type2>
+	inline constexpr bool operator !=(const Optional<Type1>& lhs, const Optional<Type2>& rhs)
 	{
 		const bool lhs_has_value = lhs.has_value();
 		return lhs_has_value != rhs.has_value() || (lhs_has_value && (*lhs != *rhs));
 	}
 
-	template <class Type>
-	inline constexpr bool operator <(const Optional<Type>& lhs, const Optional<Type>& rhs)
+	template <class Type1, class Type2>
+	inline constexpr bool operator <(const Optional<Type1>& lhs, const Optional<Type2>& rhs)
 	{
 		return rhs.has_value() && (!lhs.has_value() || (*lhs < *rhs));
 	}
 
-	template <class Type>
-	inline constexpr bool operator <=(const Optional<Type>& lhs, const Optional<Type>& rhs)
+	template <class Type1, class Type2>
+	inline constexpr bool operator <=(const Optional<Type1>& lhs, const Optional<Type2>& rhs)
 	{
 		return !lhs.has_value() || (rhs.has_value() && (*lhs <= *rhs));
 	}
 
-	template <class Type>
-	inline constexpr bool operator >(const Optional<Type>& lhs, const Optional<Type>& rhs)
+	template <class Type1, class Type2>
+	inline constexpr bool operator >(const Optional<Type1>& lhs, const Optional<Type2>& rhs)
 	{
 		return lhs.has_value() && (!rhs.has_value() || (*lhs > * rhs));
 	}
 
-	template <class Type>
-	inline constexpr bool operator >=(const Optional<Type>& lhs, const Optional<Type>& rhs)
+	template <class Type1, class Type2>
+	inline constexpr bool operator >=(const Optional<Type1>& lhs, const Optional<Type2>& rhs)
 	{
 		return !rhs.has_value() || (lhs.has_value() && (*lhs >= *rhs));
 	}
@@ -222,6 +222,26 @@ namespace s3d
 	{
 		return !opt.has_value();
 	}
+
+#if __cpp_impl_three_way_comparison && __cpp_lib_concepts && !SIV3D_PLATFORM(MACOS) && !SIV3D_PLATFORM(WEB)
+	template <class Type1, std::three_way_comparable_with<Type1> Type2>
+	inline constexpr std::compare_three_way_result_t<Type1, Type2> operator <=> (const Optional<Type1>& lhs, const Optional<Type2>& rhs) {
+		if (lhs && rhs) {
+			return *lhs <=> *rhs;
+		}
+		return lhs.has_value() <=> rhs.has_value();
+	}
+#endif
+
+#if __cpp_impl_three_way_comparison
+
+	template <class Type>
+	inline constexpr std::strong_ordering operator <=> (const Optional<Type>& opt, None_t) noexcept
+	{
+		return opt.has_value() <=> false;
+	}
+
+#else
 
 	template <class Type>
 	inline constexpr bool operator ==(None_t, const Optional<Type>& opt) noexcept
@@ -289,6 +309,7 @@ namespace s3d
 		return !opt.has_value();
 	}
 
+#endif
 
 	template <class Type, class U>
 	inline constexpr bool operator ==(const Optional<Type>& opt, const U& value)
@@ -361,6 +382,17 @@ namespace s3d
 	{
 		return opt ? value >= *opt : true;
 	}
+
+#if __cpp_impl_three_way_comparison && __cpp_lib_concepts && !SIV3D_PLATFORM(MACOS) && !SIV3D_PLATFORM(WEB)
+	template <class Type, class U>
+		requires (!detail::is_specialization_v<U, Optional>) && std::three_way_comparable_with<Type, U>
+	inline constexpr std::compare_three_way_result_t<Type, U> operator <=> (const Optional<Type>& opt, const U& value) {
+		if (opt) {
+			return *opt <=> value;
+		}
+		return std::strong_ordering::less;
+	}
+#endif
 
 
 	template <class Type>

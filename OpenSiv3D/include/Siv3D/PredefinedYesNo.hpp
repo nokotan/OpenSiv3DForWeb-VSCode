@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -112,4 +112,10 @@ namespace s3d
 
 	/// @brief パラメータの名前を含む
 	using IncludeParamNames = YesNo<struct IncludeParamNames_tag>;
+
+	/// @brief 詳細を出力する
+	using Verbose = YesNo<struct Verbose_tag>;
+
+	/// @brief リガチャ（合字）を使う
+	using Ligature = YesNo<struct Ligature_tag>;
 }

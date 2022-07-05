@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -11,6 +11,9 @@
 
 # pragma once
 # include "Common.hpp"
+# if  __has_include(<compare>)
+#	include <compare>
+# endif
 # include <vector>
 # ifndef SIV3D_NO_CONCURRENT_API
 	# include <future>
@@ -199,10 +202,10 @@ namespace s3d
 
 		Array& operator =(container_type&& other);
 
-		Array& operator=(std::initializer_list<value_type> ilist);
+		Array& operator =(std::initializer_list<value_type> ilist);
 
 		template <class ArrayIsh, std::enable_if_t<Meta::HasAsArray<ArrayIsh>::value>* = nullptr>
-		Array& operator=(const ArrayIsh& a);
+		Array& operator =(const ArrayIsh& a);
 
 		Array& assign(size_type count, const value_type & value);
 
@@ -235,13 +238,13 @@ namespace s3d
 		/// @param index 要素へのインデックス
 		/// @return 要素への参照
 		[[nodiscard]]
-		const value_type& operator[](size_t index) const;
+		const value_type& operator [](size_t index) const;
 
 		/// @brief 要素にアクセスします。
 		/// @param index 要素へのインデックス
 		/// @return 要素への参照
 		[[nodiscard]]
-		value_type& operator[](size_t index);
+		value_type& operator [](size_t index);
 
 		[[nodiscard]]
 		reference front();
@@ -418,7 +421,7 @@ namespace s3d
 		/// @brief 条件を満たす要素があるかを返します。
 		/// @tparam Fty 条件を記述した関数の型
 		/// @param f 条件を記述した関数
-		/// @return 条件を満たす要素が 1 つでもあれば true, 俺以外の場合は false
+		/// @return 条件を満たす要素が 1 つでもあれば true, それ以外の場合は false
 		template <class Fty = decltype(Identity), std::enable_if_t<std::is_invocable_r_v<bool, Fty, Type>>* = nullptr>
 		[[nodiscard]]
 		bool any(Fty f = Identity) const;
@@ -567,7 +570,7 @@ namespace s3d
 		/// @tparam Fty 条件を記述した関数の型
 		/// @param f 条件を記述した関数
 		/// @remark `.any(f)` と同じです。
-		/// @return 条件を満たす要素が 1 つでもあれば true, 俺以外の場合は false
+		/// @return 条件を満たす要素が 1 つでもあれば true, それ以外の場合は false
 		template <class Fty, std::enable_if_t<std::is_invocable_r_v<bool, Fty, Type>>* = nullptr>
 		[[nodiscard]]
 		bool includes_if(Fty f) const;
@@ -1072,6 +1075,15 @@ namespace s3d
 		template <class Fty, std::enable_if_t<std::is_invocable_r_v<Type, Fty, size_t>>* = nullptr>
 		[[nodiscard]]
 		static Array IndexedGenerate(size_type size, Fty indexedGenerator);
+
+#if __cpp_impl_three_way_comparison
+
+		[[nodiscard]]
+		auto operator <=>(const Array& rhs) const {
+			return m_container <=> rhs.m_container;
+		};
+
+#endif
 
 	private:
 

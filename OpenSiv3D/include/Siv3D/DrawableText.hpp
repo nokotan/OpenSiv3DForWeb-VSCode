@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -41,9 +41,16 @@ namespace s3d
 		[[nodiscard]]
 		Array<double> getXAdvances(double size) const;
 
+		/// @brief テキストが描画される領域を返します。
+		/// @param x 描画する左上の X 座標
+		/// @param y 描画する左上の Y 座標
+		/// @return テキストが描画される領域
 		[[nodiscard]]
 		RectF region(double x, double y) const;
 
+		/// @brief テキストが描画される領域を返します。
+		/// @param pos 描画する左上の座標
+		/// @return テキストが描画される領域
 		[[nodiscard]]
 		RectF region(Vec2 pos = Vec2{ 0, 0 }) const;
 
@@ -310,16 +317,51 @@ namespace s3d
 		/// @return テキストが描画された領域
 		RectF drawAt(const Vec2& pos = Vec2{ 0, 0 }, const ColorF& color = Palette::White) const;
 
+		/// @brief 中心位置を指定してテキストを描画します。
+		/// @param size テキストのサイズ
+		/// @param x 描画する中心の X 座標
+		/// @param y 描画する中心の Y 座標
+		/// @param color テキストの色
+		/// @return テキストが描画された領域
 		RectF drawAt(double size, double x, double y, const ColorF& color = Palette::White) const;
 
+		/// @brief 中心位置を指定してテキストを描画します。
+		/// @param size テキストのサイズ
+		/// @param pos 描画する中心の座標
+		/// @param color テキストの色
+		/// @return テキストが描画された領域
 		RectF drawAt(double size, const Vec2& pos, const ColorF& color = Palette::White) const;
 
+		/// @brief 中心位置を指定してテキストを描画します。
+		/// @param textStyle テキストのスタイル
+		/// @param x 描画する中心の X 座標
+		/// @param y 描画する中心の Y 座標
+		/// @param color テキストの色
+		/// @return テキストが描画された領域
 		RectF drawAt(const TextStyle & textStyle, double x, double y, const ColorF & color = Palette::White) const;
 
+		/// @brief 中心位置を指定してテキストを描画します。
+		/// @param textStyle テキストのスタイル
+		/// @param pos 描画する中心の座標
+		/// @param color テキストの色
+		/// @return テキストが描画された領域
 		RectF drawAt(const TextStyle & textStyle, const Vec2 & pos = Vec2{ 0, 0 }, const ColorF & color = Palette::White) const;
 
+		/// @brief 中心位置を指定してテキストを描画します。
+		/// @param textStyle テキストのスタイル
+		/// @param size テキストのサイズ
+		/// @param x 描画する中心の X 座標
+		/// @param y 描画する中心の Y 座標
+		/// @param color テキストの色
+		/// @return テキストが描画された領域
 		RectF drawAt(const TextStyle & textStyle, double size, double x, double y, const ColorF & color = Palette::White) const;
 
+		/// @brief 中心位置を指定してテキストを描画します。
+		/// @param textStyle テキストのスタイル
+		/// @param size テキストのサイズ
+		/// @param pos 描画する中心の座標
+		/// @param color テキストの色
+		/// @return テキストが描画された領域
 		RectF drawAt(const TextStyle & textStyle, double size, const Vec2 & pos, const ColorF & color = Palette::White) const;
 
 		RectF drawBaseAt(double x, double y, const ColorF& color = Palette::White) const;
@@ -366,7 +408,7 @@ namespace s3d
 	};
 
 	template <class ... Args>
-	inline DrawableText Font::operator()(const Args& ... args) const
+	inline DrawableText Font::operator ()(const Args& ... args) const
 	{
 		return DrawableText(*this, Format(args...));
 	}

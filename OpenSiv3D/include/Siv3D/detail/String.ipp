@@ -2,18 +2,14 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
 //-----------------------------------------------
 
 # pragma once
-# include <unordered_set>
-# include <functional>
-# include "../Random.hpp"
-# include "../Char.hpp"
 
 namespace s3d
 {
@@ -1127,6 +1123,58 @@ namespace s3d
 		return *this = replaced(oldStr, newStr);
 	}
 
+	inline String& String::replace(const size_type pos, const size_type count, const String& s)
+	{
+		m_string.replace(pos, count, s.m_string);
+
+		return *this;
+	}
+
+	inline String& String::replace(const size_type pos, const size_type count, const value_type* s)
+	{
+		m_string.replace(pos, count, s);
+
+		return *this;
+	}
+
+	template <class StringViewIsh, class>
+	inline String& String::replace(const size_type pos, const size_type count, const StringViewIsh& s)
+	{
+		m_string.replace(pos, count, s);
+
+		return *this;
+	}
+
+	inline String& String::replace(const_iterator first, const_iterator last, const String& s)
+	{
+		m_string.replace(first, last, s.m_string);
+
+		return *this;
+	}
+
+	inline String& String::replace(const_iterator first, const_iterator last, const value_type* s)
+	{
+		m_string.replace(first, last, s);
+
+		return *this;
+	}
+
+	template <class StringViewIsh, class>
+	inline String& String::replace(const_iterator first, const_iterator last, const StringViewIsh& s)
+	{
+		m_string.replace(first, last, s);
+
+		return *this;
+	}
+
+	template <class Iterator>
+	inline String& String::replace(const_iterator first, const_iterator last, Iterator first2, Iterator last2)
+	{
+		m_string.replace(first, last, first2, last2);
+
+		return *this;
+	}
+
 	inline String String::replaced(const value_type oldChar, const value_type newChar) const&
 	{
 		return String(*this).replace(oldChar, newChar);
@@ -1469,17 +1517,6 @@ namespace s3d
 	{
 		// [Siv3D ToDo: 最適化]
 		return *this = stable_uniqued();
-	}
-
-	inline String String::stable_uniqued() const
-	{
-		String result;
-
-		detail::StableUniqueHelper<value_type> pred;
-
-		std::copy_if(m_string.begin(), m_string.end(), std::back_inserter(result), std::ref(pred));
-
-		return result;
 	}
 
 	inline String& String::sort_and_unique()

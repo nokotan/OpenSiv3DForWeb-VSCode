@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -36,7 +36,7 @@ namespace s3d
 		Always			= 8
 	};
 
-	/// @brief ラスタライザーステート
+	/// @brief デプス・ステンシルステート
 	struct DepthStencilState
 	{
 	private:
@@ -111,7 +111,7 @@ template <>
 struct std::hash<s3d::DepthStencilState>
 {
 	[[nodiscard]]
-	size_t operator()(const s3d::DepthStencilState& value) const noexcept
+	size_t operator ()(const s3d::DepthStencilState& value) const noexcept
 	{
 		return hash<s3d::DepthStencilState::storage_type>()(value.asValue());
 	}

@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -35,6 +35,8 @@ namespace s3d
 
 		static bool Register(AssetNameView name, const s3d::ESSL& essl);
 
+		static bool Register(AssetNameView name, const s3d::WGSL& wgsl);
+
 		static bool Register(AssetNameView name, const ShaderGroup& shaderGroup);
 
 		static bool Register(AssetNameView name, std::unique_ptr<VertexShaderAssetData>&& data);
@@ -49,6 +51,8 @@ namespace s3d
 		static bool Register(const AssetNameAndTags& nameAndTags, const s3d::MSL& msl);
 
 		static bool Register(const AssetNameAndTags& nameAndTags, const s3d::ESSL& essl);
+
+		static bool Register(const AssetNameAndTags& nameAndTags, const s3d::WGSL& wgsl);
 
 		static bool Register(const AssetNameAndTags& nameAndTags, const ShaderGroup& shaderGroup);
 

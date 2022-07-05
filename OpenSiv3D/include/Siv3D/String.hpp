@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -13,10 +13,14 @@
 # if  __has_include(<compare>)
 #	include <compare>
 # endif
+# include <functional>
 # include <string>
+# include <unordered_set>
 # include "Common.hpp"
 # include "StringView.hpp"
 # include "Utility.hpp"
+# include "Random.hpp"
+# include "Char.hpp"
 # include "Shuffle.hpp"
 
 namespace s3d
@@ -250,35 +254,59 @@ namespace s3d
 		value_type at(size_t offset) &&;
 
 		[[nodiscard]]
-		value_type& operator[](size_t offset) & noexcept;
+		value_type& operator [](size_t offset) & noexcept;
 
 		[[nodiscard]]
-		const value_type& operator[](size_t offset) const& noexcept;
+		const value_type& operator [](size_t offset) const& noexcept;
 
 		[[nodiscard]]
-		value_type operator[](size_t offset) && noexcept;
+		value_type operator [](size_t offset) && noexcept;
 
+		/// @brief 先頭に文字を追加します。
+		/// @param ch 追加する文字
 		void push_front(value_type ch);
 
+		/// @brief 末尾に文字を追加します。
+		/// @param ch 追加する文字
 		void push_back(value_type ch);
 
+		/// @brief 先頭の文字を削除します。
 		void pop_front();
 
+		/// @brief 先頭の n 文字を削除します。
+		/// @remark n が現在の文字数より大きい場合は空の文字列にします。
+		/// @param n 削除する文字数
 		void pop_front_N(size_t n);
 
+		/// @brief 末尾の文字を削除します。
 		void pop_back() noexcept;
 
+		/// @brief 末尾の n 文字を削除します。
+		/// @remark n が現在の文字数より大きい場合は空の文字列にします。
+		/// @param n 削除する文字数
 		void pop_back_N(size_t n) noexcept;
 
+		/// @brief 先頭の文字への参照を返します。
+		/// @remark 空の文字列に対しては使えません。
+		/// @return 先頭の文字への参照
 		[[nodiscard]]
 		value_type& front() noexcept;
 
+		/// @brief 先頭の文字への参照を返します。
+		/// @remark 空の文字列に対しては使えません。
+		/// @return 先頭の文字への参照
 		[[nodiscard]]
 		const value_type& front() const noexcept;
 
+		/// @brief 末尾の文字への参照を返します。
+		/// @remark 空の文字列に対しては使えません。
+		/// @return 末尾の文字への参照
 		[[nodiscard]]
 		value_type& back() noexcept;
 
+		/// @brief 末尾の文字への参照を返します。
+		/// @remark 空の文字列に対しては使えません。
+		/// @return 末尾の文字への参照
 		[[nodiscard]]
 		const value_type& back() const noexcept;
 
@@ -297,21 +325,36 @@ namespace s3d
 		[[nodiscard]]
 		const string_type& str() const noexcept;
 
+		/// @brief 文字列の長さ（要素数）を返します。
+		/// @return 文字列の長さ（要素数）
 		[[nodiscard]]
 		size_t length() const noexcept;
 
+		/// @brief 文字列の長さ（要素数）を返します。
+		/// @remark `.length()` と同じです。
+		/// @return 文字列の長さ（要素数）
 		[[nodiscard]]
 		size_t size() const noexcept;
 
+		/// @brief 文字列のデータサイズ（バイト）を返します。
+		/// @remark `sizeof(value_type) * length()` です。
+		/// @return 文字列のデータサイズ（バイト）
 		[[nodiscard]]
 		size_t size_bytes() const noexcept;
 
+		/// @brief 文字列が空であるかを返します。
+		/// @return 文字列が空である場合 true, それ以外の場合は false
 		[[nodiscard]]
 		bool empty() const noexcept;
 
+		/// @brief 文字列が空であるかを返します。
+		/// @remark `empty()` と同じです。
+		/// @return 文字列が空である場合 true, それ以外の場合は false
 		[[nodiscard]]
 		bool isEmpty() const noexcept;
 
+		/// @brief 文字列が空でないかを返します。
+		/// @return 文字列が空でない場合 true, それ以外の場合は false
 		[[nodiscard]]
 		explicit operator bool() const noexcept;
 
@@ -353,24 +396,20 @@ namespace s3d
 		[[nodiscard]]
 		bool ends_with(StringView s) const;
 
-		/// @brief 
-		/// @param offset 
-		/// @param count 
-		/// @return 
+		/// @brief 部分文字列を取得します。
+		/// @param offset 開始インデックス
+		/// @param count 取得する文字数。末尾までの場合 npos
+		/// @return 部分文字列
 		[[nodiscard]]
 		String substr(size_t offset = 0, size_t count = npos) const;
 
-		/// @brief 
-		/// @param offset 
-		/// @param count 
-		/// @return 
+		/// @brief 部分文字列へのビューを取得します。
+		/// @param offset 開始インデックス
+		/// @param count 取得する文字数。末尾までの場合 npos
+		/// @return 部分文字列へのビュー
 		[[nodiscard]]
 		StringView substrView(size_t offset = 0, size_t count = npos) const&;
 
-		/// @brief 
-		/// @param offset 
-		/// @param count 
-		/// @return 
 		[[nodiscard]]
 		StringView substrView(size_t offset = 0, size_t count = npos)&& = delete;
 
@@ -801,6 +840,23 @@ namespace s3d
 		/// @return *this
 		String& replace(const StringView oldStr, const StringView newStr);
 
+		String& replace(size_type pos, size_type count, const String& s);
+
+		String& replace(size_type pos, size_type count, const value_type* s);
+
+		template <class StringViewIsh, class = IsStringViewIsh<StringViewIsh>>
+		String& replace(size_type pos, size_type count, const StringViewIsh& s);
+
+		String& replace(const_iterator first, const_iterator last, const String& s);
+
+		String& replace(const_iterator first, const_iterator last, const value_type* s);
+
+		template <class StringViewIsh, class = IsStringViewIsh<StringViewIsh>>
+		String& replace(const_iterator first, const_iterator last, const StringViewIsh& s);
+
+		template <class Iterator>
+		String& replace(const_iterator first, const_iterator last, Iterator first2, Iterator last2);
+
 		/// @brief 指定した文字を置換した新しい文字列を返します。
 		/// @param oldChar 置換対象の文字
 		/// @param newChar 置換後の文字
@@ -1126,21 +1182,21 @@ namespace s3d
 		/// @return *this
 		String& xml_escape();
 
-		[[nodiscard]]
 		/// @brief  XML エスケープした文字列を返します。
-		/// @remark&quot;, \, &amp;, &gt;, &lt; などのエスケープを行います
+		/// @remark &quot;, \, &amp;, &gt;, &lt; などのエスケープを行います
 		/// @return 新しい文字列
+		[[nodiscard]]
 		String xml_escaped() const;
 
 		friend bool operator ==(const String& lhs, const value_type* rhs);
 
 #if __cpp_impl_three_way_comparison
 
-		bool operator == (const String& rhs) const noexcept = default;
+		bool operator ==(const String& rhs) const noexcept = default;
 
-		std::strong_ordering operator <=> (const String & rhs) const noexcept = default;
+		std::strong_ordering operator <=>(const String& rhs) const noexcept = default;
 
-		friend std::strong_ordering operator <=> (const String & lhs, const value_type * rhs);
+		friend std::strong_ordering operator <=>(const String& lhs, const value_type* rhs);
 
 #else
 
@@ -1269,7 +1325,7 @@ template <>
 struct std::hash<s3d::String>
 {
 	[[nodiscard]]
-	size_t operator()(const s3d::String& value) const noexcept
+	size_t operator ()(const s3d::String& value) const noexcept
 	{
 		return value.hash();
 	}

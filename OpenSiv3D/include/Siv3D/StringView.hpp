@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -89,7 +89,7 @@ namespace s3d
 		constexpr const_reverse_iterator crend() const noexcept;
 
 		[[nodiscard]]
-		constexpr const_reference operator[](size_type index) const noexcept;
+		constexpr const_reference operator [](size_type index) const noexcept;
 
 		[[nodiscard]]
 		constexpr const_reference at(size_type index) const;
@@ -268,7 +268,7 @@ namespace s3d
 #if __cpp_impl_three_way_comparison
 
 		[[nodiscard]]
-		constexpr std::strong_ordering operator <=> (const StringView& rhs) const noexcept = default;
+		constexpr std::strong_ordering operator <=>(const StringView& rhs) const noexcept = default;
 
 #else
 
@@ -344,7 +344,7 @@ template <>
 struct std::hash<s3d::StringView>
 {
 	[[nodiscard]]
-	size_t operator()(const s3d::StringView& value) const noexcept
+	size_t operator ()(const s3d::StringView& value) const noexcept
 	{
 		return value.hash();
 	}

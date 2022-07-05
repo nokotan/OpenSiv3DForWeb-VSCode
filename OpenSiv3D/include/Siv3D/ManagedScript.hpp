@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -12,7 +12,8 @@
 # pragma once
 # include <memory>
 # include "Common.hpp"
-# include "StringView.hpp"
+# include "Array.hpp"
+# include "String.hpp"
 
 namespace s3d
 {
@@ -41,6 +42,14 @@ namespace s3d
 		/// @return コンパイルに成功した場合 true, それ以外の場合は false
 		[[nodiscard]]
 		bool compiled() const;
+
+		/// @brief スクリプトのリロードを発生させるイベントを設定します。
+		/// @param trigger スクリプトのリロードを発生させるイベント。この関数が true を返すとスクリプトをリロードする
+		void setTriggerToReload(const std::function<bool()>& trigger);
+
+		/// @brief インクルードされているファイル一覧を返します。
+		/// @return  インクルードされているファイル一覧
+		const Array<FilePath>& getIncludedFiles() const noexcept;
 
 		/// @brief スクリプトコードを実行します。
 		void run() const;

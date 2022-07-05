@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -228,7 +228,7 @@ namespace s3d
 	# else
 
 		/// @brief 残り時間を比較します。
-		/// @paramt タイマー
+		/// @param t タイマー
 		/// @param time 比較する時間
 		/// @return 比較の結果
 		[[nodiscard]]
@@ -238,7 +238,7 @@ namespace s3d
 		}
 
 		/// @brief 残り時間を比較します。
-		/// @paramt タイマー
+		/// @param t タイマー
 		/// @param time 比較する時間
 		/// @return 比較の結果
 		[[nodiscard]]
@@ -248,7 +248,7 @@ namespace s3d
 		}
 
 		/// @brief 残り時間を比較します。
-		/// @paramt タイマー
+		/// @param t タイマー
 		/// @param time 比較する時間
 		/// @return 比較の結果
 		[[nodiscard]]
@@ -258,7 +258,7 @@ namespace s3d
 		}
 
 		/// @brief 残り時間を比較します。
-		/// @paramt タイマー
+		/// @param t タイマー
 		/// @param time 比較する時間
 		/// @return 比較の結果
 		[[nodiscard]]
@@ -269,7 +269,7 @@ namespace s3d
 
 		/// @brief 残り時間を比較します。
 		/// @param time 比較する時間
-		/// @paramt タイマー
+		/// @param t タイマー
 		/// @return 比較の結果
 		[[nodiscard]]
 		friend bool operator <(const MicrosecondsF& time, const Timer& t)
@@ -279,7 +279,7 @@ namespace s3d
 
 		/// @brief 残り時間を比較します。
 		/// @param time 比較する時間
-		/// @paramt タイマー
+		/// @param t タイマー
 		/// @return 比較の結果
 		[[nodiscard]]
 		friend bool operator <=(const MicrosecondsF& time, const Timer& t)
@@ -289,7 +289,7 @@ namespace s3d
 
 		/// @brief 残り時間を比較します。
 		/// @param time 比較する時間
-		/// @paramt タイマー
+		/// @param t タイマー
 		/// @return 比較の結果
 		[[nodiscard]]
 		friend bool operator >(const MicrosecondsF& time, const Timer& t)
@@ -299,7 +299,7 @@ namespace s3d
 
 		/// @brief 残り時間を比較します。
 		/// @param time 比較する時間
-		/// @paramt タイマー
+		/// @param t タイマー
 		/// @return 比較の結果
 		[[nodiscard]]
 		friend bool operator >=(const MicrosecondsF& time, const Timer& t)

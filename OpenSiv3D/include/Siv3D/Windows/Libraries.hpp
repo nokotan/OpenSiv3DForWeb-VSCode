@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -55,9 +55,9 @@
 # pragma comment (lib, "Siv3D" SIV3D_DEBUG_LIB_POSTFIX(_d))
 
 # if SIV3D_BUILD(DEBUG)
-# pragma comment (lib, "boost/libboost_filesystem-vc142-mt-sgd-x64-1_73")
+# pragma comment (lib, "boost/libboost_filesystem-vc142-mt-sgd-x64-1_74")
 # else
-# pragma comment (lib, "boost/libboost_filesystem-vc142-mt-s-x64-1_73")
+# pragma comment (lib, "boost/libboost_filesystem-vc142-mt-s-x64-1_74")
 # endif
 
 # undef SIV3D_DEBUG_LIB_POSTFIX

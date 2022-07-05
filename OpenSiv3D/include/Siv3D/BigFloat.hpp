@@ -2,14 +2,17 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
 //-----------------------------------------------
 
 # pragma once
+# if  __has_include(<compare>)
+#	include <compare>
+# endif
 # include <memory>
 # include "BigInt.hpp"
 
@@ -259,7 +262,7 @@ namespace s3d
 		[[nodiscard]]
 		friend inline BigFloat operator -(Arithmetic a, const BigFloat& b)
 		{
-			return (-b + a);
+			return -(b - a);
 		}
 
 		//////////////////////////////////////////////////
@@ -426,10 +429,44 @@ namespace s3d
 
 		SIV3D_CONCEPT_ARITHMETIC
 		[[nodiscard]]
-		friend inline bool operator ==(const BigFloat& a, const BigFloat b)
+		friend inline bool operator ==(const BigFloat& a, const Arithmetic b)
 		{
 			return (a.compare(b) == 0);
 		}
+
+#if __cpp_impl_three_way_comparison
+
+		//////////////////////////////////////////////////
+		//
+		//	<=>
+		//
+		//////////////////////////////////////////////////
+
+		[[nodiscard]]
+		friend inline std::partial_ordering operator <=>(const BigFloat& a, const BigFloat& b)
+		{
+			if (a.isNaN() || b.isNaN()) {
+				return std::partial_ordering::unordered;
+			}
+			return (a.compare(b) <=> 0);
+		}
+
+		SIV3D_CONCEPT_ARITHMETIC
+		[[nodiscard]]
+		friend inline std::partial_ordering operator <=>(const BigFloat& a, const Arithmetic b)
+		{
+			if constexpr (std::is_floating_point_v<Arithmetic>) {
+				if (std::isnan(b)) {
+					return std::partial_ordering::unordered;
+				}
+			}
+			if (a.isNaN()) {
+				return std::partial_ordering::unordered;
+			}
+			return (a.compare(b) <=> 0);
+		}
+
+#else
 
 		SIV3D_CONCEPT_ARITHMETIC
 		[[nodiscard]]
@@ -454,7 +491,7 @@ namespace s3d
 		[[nodiscard]]
 		friend inline bool operator !=(const BigFloat& a, const Arithmetic b)
 		{
-			return (a.compare(b) == 0);
+			return (a.compare(b) != 0);
 		}
 
 		SIV3D_CONCEPT_ARITHMETIC
@@ -568,6 +605,8 @@ namespace s3d
 			return (b.compare(a) <= 0);
 		}
 
+#endif
+
 		//////////////////////////////////////////////////
 		//
 		//	utilities
@@ -579,7 +618,13 @@ namespace s3d
 		
 		[[nodiscard]]
 		bool isZero() const;
-		
+
+		[[nodiscard]]
+		bool isNaN() const;
+
+		[[nodiscard]]
+		bool isInf() const;
+
 		[[nodiscard]]
 		int32 sign() const;
 		
@@ -793,7 +838,7 @@ template <>
 struct std::hash<s3d::BigFloat>
 {
 	[[nodiscard]]
-	size_t operator()(const s3d::BigFloat& value) const noexcept
+	size_t operator ()(const s3d::BigFloat& value) const noexcept
 	{
 		return value.hash();
 	}

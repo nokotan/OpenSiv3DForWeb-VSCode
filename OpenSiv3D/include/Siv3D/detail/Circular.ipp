@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -124,7 +124,7 @@ namespace s3d
 	{
 		if (theta <= -Math::Pi)
 		{
-			return (theta + Math::TwoPi);
+			return (theta + Math::TwoPi_v<Float>);
 		}
 		else
 		{
@@ -135,7 +135,7 @@ namespace s3d
 	template <class Float, int32 Oclock>
 	inline constexpr Float CircularBase<Float, Oclock>::Clock() noexcept
 	{
-		return (Oclock * (Math::TwoPi / 12));
+		return (Oclock * (Math::TwoPi_v<Float> / 12));
 	}
 
 	template <class Float, int32 Oclock>

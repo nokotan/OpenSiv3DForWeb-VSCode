@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -18,6 +18,7 @@ namespace s3d
 {
 	struct Mat4x4;
 
+	/// @brief クォータニオン
 	struct alignas(16) Quaternion
 	{
 		SIMD_Float4 value = { 0.0f, 0.0f, 0.0f, 1.0f };

@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -25,9 +25,63 @@ namespace s3d
 		/// @brief デフォルトコンストラクタ
 		SIV3D_NODISCARD_CXX20
 		NavMesh();
-		
+
+		/// @brief Polygon から 2D のナビメッシュを構築します。
+		/// @param polygon ナビメッシュ用の地形データ
+		/// @param config ナビメッシュの設定
+		SIV3D_NODISCARD_CXX20
+		explicit NavMesh(const Polygon& polygon, const NavMeshConfig& config = {});
+
+		/// @brief Polygon から 2D のナビメッシュを構築します。
+		/// @param polygon ナビメッシュ用の地形データ
+		/// @param areaIDs 各三角形のエリア ID, 指定しない場合のデフォルト値は 63
+		/// @param config ナビメッシュの設定
+		SIV3D_NODISCARD_CXX20
+		NavMesh(const Polygon& polygon, const Array<uint8>& areaIDs, const NavMeshConfig& config = {});
+
+		/// @brief 頂点配列とインデックス配列から 2D のナビメッシュを構築します。
+		/// @param vertices ナビメッシュ用の地形データの頂点配列
+		/// @param indices ナビメッシュ用の地形データのインデックス配列
+		/// @param config ナビメッシュの設定	
+		SIV3D_NODISCARD_CXX20
+		NavMesh(const Array<Float2>& vertices, const Array<TriangleIndex>& indices, const NavMeshConfig& config = {});
+
+		/// @brief 頂点配列とインデックス配列から 2D のナビメッシュを構築します。
+		/// @param vertices ナビメッシュ用の地形データの頂点配列
+		/// @param indices ナビメッシュ用の地形データのインデックス配列
+		/// @param areaIDs 各三角形のエリア ID, 指定しない場合のデフォルト値は 63
+		/// @param config ナビメッシュの設定	
+		SIV3D_NODISCARD_CXX20
+		NavMesh(const Array<Float2>& vertices, const Array<TriangleIndex>& indices, const Array<uint8>& areaIDs, const NavMeshConfig& config = {});
+
+		/// @brief 頂点配列とインデックス配列から 3D のナビメッシュを構築します。
+		/// @param vertices ナビメッシュ用の地形データの頂点配列
+		/// @param indices ナビメッシュ用の地形データのインデックス配列
+		/// @param config ナビメッシュの設定
+		SIV3D_NODISCARD_CXX20
+		NavMesh(const Array<Float3>& vertices, const Array<TriangleIndex>& indices, const NavMeshConfig& config = {});
+
+		/// @brief 頂点配列とインデックス配列から 3D のナビメッシュを構築します。
+		/// @param vertices ナビメッシュ用の地形データの頂点配列
+		/// @param indices ナビメッシュ用の地形データのインデックス配列
+		/// @param areaIDs 各三角形のエリア ID, 指定しない場合のデフォルト値は 63
+		/// @param config ナビメッシュの設定	
+		SIV3D_NODISCARD_CXX20
+		NavMesh(const Array<Float3>& vertices, const Array<TriangleIndex>& indices, const Array<uint8>& areaIDs, const NavMeshConfig& config = {});
+
 		/// @brief デストラクタ
 		~NavMesh();
+
+		/// @brief ナビメッシュが構築されているかを返します。
+		/// @return ナビメッシュが構築されている場合 true, それ以外の場合は false
+		[[nodiscard]]
+		bool isValid() const noexcept;
+
+		/// @brief ナビメッシュが構築されているかを返します。
+		/// @remark `isVlaid()` と同じです。
+		/// @return ナビメッシュが構築されている場合 true, それ以外の場合は false
+		[[nodiscard]]
+		explicit operator bool() const noexcept;
 
 		/// @brief Polygon から 2D のナビメッシュを構築します。
 		/// @param polygon ナビメッシュ用の地形データ

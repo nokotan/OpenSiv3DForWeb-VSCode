@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -83,6 +83,10 @@ namespace s3d
 		[[nodiscard]]
 		inline s3d::Rect Rect() noexcept;
 
+		template <class Type = double>
+		[[nodiscard]]
+		inline Type HorizontalAspectRatio() noexcept;
+
 		/// @brief ウィンドウのサイズを変更したときに、シーンをどのようにリサイズするかを設定します。
 		/// @reamrk デフォルトは `Scene::DefaultResizeMode` です。	
 		/// @param resizeMode シーンのリサイズモード
@@ -132,11 +136,11 @@ namespace s3d
 		[[nodiscard]]
 		double GetMaxDeltaTime() noexcept;
 
-		[[nodiscard]]
 		/// @brief 前回の System::Update() からの経過時間（秒）を、`Scene::GetMaxDeltaTime()` を超えない値で返します。
 		/// @remark この値をもとにアニメーションやイベントの処理などを行うことで、フレームレートが上下しても対応できます。
 		/// @remark `System::Update()` を呼ぶことで値が更新されます。
 		/// @return 前回のフレームからの経過時間（秒）と `Scene::GetMaxDeltaTime()` のうち、小さいほうの値
+		[[nodiscard]]
 		double DeltaTime() noexcept;
 
 		/// @brief アプリケーションが起動してからの経過時間（秒）を返します。

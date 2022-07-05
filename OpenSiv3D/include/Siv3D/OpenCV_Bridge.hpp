@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -54,7 +54,7 @@ namespace s3d
 		inline cv::Rect ToCVRect(const Rect& rect);
 
 		[[nodiscard]]
-		inline cv::Mat_<cv::Vec4b> GetMatView(Image& image);
+		inline cv::Mat GetMatView(Image& image);
 
 		[[nodiscard]]
 		inline constexpr int32 ConvertBorderType(const BorderType borderType) noexcept;

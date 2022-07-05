@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -599,6 +599,10 @@ namespace s3d
 		[[nodiscard]]
 		constexpr value_type perimeter() const noexcept;
 
+		template <class Type = double>
+		[[nodiscard]]
+		constexpr Type horizontalAspectRatio() const noexcept;
+
 		[[nodiscard]]
 		Quad rotated(double angle) const noexcept;
 
@@ -832,7 +836,7 @@ template <>
 struct std::hash<s3d::Rect>
 {
 	[[nodiscard]]
-	size_t operator()(const s3d::Rect& value) const noexcept
+	size_t operator ()(const s3d::Rect& value) const noexcept
 	{
 		return value.hash();
 	}

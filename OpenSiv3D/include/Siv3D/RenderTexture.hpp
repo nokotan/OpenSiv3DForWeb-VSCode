@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -15,6 +15,7 @@
 
 namespace s3d
 {
+	/// @brief レンダーテクスチャ
 	class RenderTexture : public Texture
 	{
 	public:
@@ -54,6 +55,9 @@ namespace s3d
 
 		virtual ~RenderTexture();
 
+		/// @brief テクスチャを指定した色で塗りつぶします。デプスを持つ場合、デプスもクリアします。
+		/// @param color 塗りつぶしの色
+		/// @return *this
 		const RenderTexture& clear(const ColorF& color) const;
 
 		// TextureFormat::R8G8B8A8_Unorm のみサポート

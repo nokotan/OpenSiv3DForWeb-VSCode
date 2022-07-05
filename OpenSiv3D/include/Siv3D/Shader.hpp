@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -17,6 +17,7 @@
 # include "RenderTexture.hpp"
 # include "Graphics2D.hpp"
 # include "2DShapes.hpp"
+# include "TextureFilter.hpp"
 
 namespace s3d
 {
@@ -34,9 +35,11 @@ namespace s3d
 
 		void GaussianBlur(const TextureRegion& from, const RenderTexture& internalBuffer, const RenderTexture& to);
 
-		void LinearToScreen(const TextureRegion& src, const Vec2& pos);
+		void LinearToScreen(const TextureRegion& src, TextureFilter textureFilter, const RectF& dst = RectF{ Graphics2D::GetRenderTargetSize() });
 
-		void LinearToScreen(const TextureRegion& src, const RectF& dst = RectF{ Graphics2D::GetRenderTargetSize() });
+		void LinearToScreen(const TextureRegion& src, const Vec2& pos, TextureFilter textureFilter = TextureFilter::Linear);
+
+		void LinearToScreen(const TextureRegion& src, const RectF& dst = RectF{ Graphics2D::GetRenderTargetSize() }, TextureFilter textureFilter = TextureFilter::Linear);
 	}
 
 # if SIV3D_PLATFORM(WINDOWS)

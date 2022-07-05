@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -36,6 +36,28 @@ namespace s3d
 			{
 				return static_cast<float>(x * Math::Pi_v<long double>);
 			}
+
+
+			inline constexpr double operator ""_tau(const long double x) noexcept
+			{
+				return static_cast<double>(x * Math::Tau_v<long double>);
+			}
+
+			inline constexpr double operator ""_tau(const unsigned long long x) noexcept
+			{
+				return static_cast<double>(x * Math::Tau_v<long double>);
+			}
+
+			inline constexpr float operator ""_tauF(const long double x) noexcept
+			{
+				return static_cast<float>(x * Math::Tau_v<long double>);
+			}
+
+			inline constexpr float operator ""_tauF(const unsigned long long x) noexcept
+			{
+				return static_cast<float>(x * Math::Tau_v<long double>);
+			}
+
 
 			inline constexpr double operator ""_deg(const long double deg) noexcept
 			{

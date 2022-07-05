@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -151,6 +151,12 @@ namespace s3d
 	inline Image::operator bool() const noexcept
 	{
 		return (not m_data.empty());
+	}
+
+	template <class Type>
+	inline Type Image::horizontalAspectRatio() const noexcept
+	{
+		return size().horizontalAspectRatio();
 	}
 
 	inline void Image::shrink_to_fit()

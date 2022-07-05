@@ -152,7 +152,7 @@ mergeInto(LibraryManager.library, {
                     siv3dDragDropFileReader = new FileReader();
                 }
 
-                const filePath = `/tmp/${file.name}`;
+                const filePath = "/tmp/" + file.name;
 
                 siv3dDragDropFileReader.addEventListener("load", function onLoaded() {
                     FS.writeFile(filePath, new Uint8Array(siv3dDragDropFileReader.result));
@@ -237,7 +237,7 @@ mergeInto(LibraryManager.library, {
         };
 
         navigator.mediaDevices.getUserMedia(constraint).then(
-            stream => {
+            function(stream) {
                 const video = document.createElement("video");
 
                 video["playsInline"] = true;          
@@ -252,7 +252,7 @@ mergeInto(LibraryManager.library, {
 
                 video.srcObject = stream;
             }
-        ).catch(_ => {
+        ).catch(function(_) {
             if (callback) {{{ makeDynCall('vii', 'callback') }}}(0, callbackArg);
         })
     },
@@ -271,7 +271,7 @@ mergeInto(LibraryManager.library, {
         };
 
         stream.applyConstraints(constraint).then(
-            () => {
+            function () {
                 if (callback) {{{ makeDynCall('vii', 'callback') }}}(idx, callbackArg);
             }
         );
@@ -346,10 +346,11 @@ mergeInto(LibraryManager.library, {
     siv3dPlayVideo: function(idx) {
         const video = videoElements[idx];
         
-        video.play().catch(() =>
-            siv3dRegisterUserAction(function() {
-                video.play();
-            })
+        video.play().catch(function () {
+                siv3dRegisterUserAction(function() {
+                    video.play();
+                })
+            }
         );
     },
     siv3dPlayVideo__sig: "vi",
@@ -502,8 +503,8 @@ mergeInto(LibraryManager.library, {
     $siv3dPendingUserActions: [],
 
     $siv3dTriggerUserAction: function() {
-        for (let action of siv3dPendingUserActions) {
-            action();
+        for (var i = 0; i < siv3dPendingUserActions.length; i++) {
+            (siv3dPendingUserActions[i])();
         }
 
         siv3dPendingUserActions.splice(0);
@@ -514,7 +515,7 @@ mergeInto(LibraryManager.library, {
     $siv3dRegisterUserAction: function(func) {
         siv3dPendingUserActions.push(func);
     },
-    $siv3dRegisterUserAction__deps: [ "$siv3dPendingUserActions" ],
+    $siv3dRegisterUserAction__deps: [ "$siv3dPendingUserActions", "$autoResumeAudioContext", "$dynCall" ],
 
     $siv3dUserActionHookCallBack: function() {
         if (!siv3dHasUserActionTriggered) {
@@ -574,7 +575,7 @@ mergeInto(LibraryManager.library, {
                 }
 
                 const file = files[0];
-                const filePath = `/tmp/${file.name}`;
+                const filePath = "/tmp/" + file.name;
 
                 siv3dDialogFileReader.addEventListener("load", function onLoaded() {
                     FS.writeFile(filePath, new Uint8Array(siv3dDialogFileReader.result));
@@ -607,7 +608,7 @@ mergeInto(LibraryManager.library, {
             }
 
             const file = files[0];
-            const filePath = `/tmp/${file.name}`;
+            const filePath = "/tmp/" + file.name;
 
             siv3dDialogFileReader.addEventListener("load", function onLoaded() {
                 FS.writeFile(filePath, new Uint8Array(siv3dDialogFileReader.result));
@@ -728,11 +729,11 @@ mergeInto(LibraryManager.library, {
         return Asyncify.handleSleep(function (wakeUp) {
             siv3dRegisterUserAction(function () {
                 navigator.clipboard.readText()
-                .then(str => {
+                .then(function(str) {
                     const strPtr = allocate(intArrayFromString(str), ALLOC_NORMAL);       
                     wakeUp(strPtr);
                 })
-                .catch(_ => {
+                .catch(function(_) {
                     wakeUp(0);
                 })
             }); 
@@ -744,12 +745,12 @@ mergeInto(LibraryManager.library, {
     siv3dGetClipboardTextAsync: function(callback, promise) {
         siv3dRegisterUserAction(function () {
             navigator.clipboard.readText()
-            .then(str => {
+            .then(function(str) {
                 const strPtr = allocate(intArrayFromString(str), ALLOC_NORMAL);       
                 {{{ makeDynCall('vii', 'callback') }}}(strPtr, promise);
                 Module["_free"](strPtr);
             })
-            .catch(e => {
+            .catch(function (e) {
                 {{{ makeDynCall('vii', 'callback') }}}(0, promise);
             })
         });
@@ -794,7 +795,7 @@ mergeInto(LibraryManager.library, {
         siv3dTextInputElement.addEventListener('input', function (e) {
             if (e.inputType == "insertText") {
                 if (e.data) {
-                    for (let i = 0; i < e.data.length; i++) {
+                    for (var i = 0; i < e.data.length; i++) {
                         const codePoint = e.data.charCodeAt(i);
                         {{{ makeDynCall('vi', 'callback') }}}(codePoint);
                     }
@@ -802,7 +803,7 @@ mergeInto(LibraryManager.library, {
             }    
         });
         siv3dTextInputElement.addEventListener('compositionend', function (e) {
-            for (let i = 0; i < e.data.length; i++) {
+            for (var i = 0; i < e.data.length; i++) {
                 const codePoint = e.data.charCodeAt(i);
                 {{{ makeDynCall('vi', 'callback') }}}(codePoint);
             }
@@ -842,6 +843,55 @@ mergeInto(LibraryManager.library, {
     siv3dRequestTextInputFocus__deps: [ "$siv3dRegisterUserAction", "$siv3dTextInputElement" ],
 
     //
+    // Font Rendering
+    //
+    $siv3dTextRenderingCanvas: null,
+    $siv3dTextRenderingCanvasContext: null,
+
+    siv3dRenderText: function(utf32CodePoint, data) {
+        if (!siv3dTextRenderingCanvas) {
+            siv3dTextRenderingCanvas = document.createElement('canvas');
+            siv3dTextRenderingCanvasContext = siv3dTextRenderingCanvas.getContext("2d");
+        }
+
+        const text = String.fromCodePoint(utf32CodePoint);
+        const fontSize = 64;
+        const fontName = "sans-serif";
+
+        siv3dTextRenderingCanvasContext.fillStyle = "0x0";
+        siv3dTextRenderingCanvasContext.font = `${fontSize}px '${fontName}'`;
+        siv3dTextRenderingCanvasContext.textBaseline = "bottom";
+
+        const textMetrix = siv3dTextRenderingCanvasContext.measureText(text);
+        const fontWidth = Math.ceil(Math.abs(textMetrix.actualBoundingBoxLeft) + Math.abs(textMetrix.actualBoundingBoxRight)) || 1;
+        const fontHeight = Math.ceil(Math.abs(textMetrix.actualBoundingBoxAscent) + Math.abs(textMetrix.actualBoundingBoxDescent)) || 1;
+        const fontXAdvance = textMetrix.width;
+
+        siv3dTextRenderingCanvasContext.clearRect(0, 0, siv3dTextRenderingCanvas.width, siv3dTextRenderingCanvas.height);
+        siv3dTextRenderingCanvasContext.fillText(text, Math.abs(textMetrix.actualBoundingBoxLeft), fontHeight);
+
+        const textBitmap = siv3dTextRenderingCanvasContext.getImageData(0, 0, fontWidth, fontHeight).data;
+        const dataBuffer = Module["_malloc"](textBitmap.length);
+
+        HEAPU8.set(textBitmap, dataBuffer);
+
+        HEAPU32[data>>2] = utf32CodePoint; data += 4;                       // glyphIndex
+        HEAP32[data>>2] = dataBuffer; data += 4;                            // buffer
+        HEAP16[data>>1] = textMetrix.actualBoundingBoxLeft; data += 2;      // left
+        HEAP16[data>>1] = fontHeight; data += 2;                            // top
+        HEAP16[data>>1] = fontWidth; data += 2;                             // width
+        HEAP16[data>>1] = fontHeight; data += 2;                            // height
+        HEAP16[data>>1] = fontSize; data += 2;                              // ascender
+        HEAP16[data>>1] = 0; data += 2;                                     // descender
+        data += 4;                                                          // padding
+        HEAPF64[data>>3] = fontXAdvance; data += 8;                         // xAdvance
+        HEAPF64[data>>3] = 0; data += 8;                                    // yAdvance
+    },
+    siv3dRenderText__sig: "vii",
+    siv3dRenderText__deps: [ "$siv3dTextRenderingCanvas", "$siv3dTextRenderingCanvasContext" ],
+
+
+    //
     // Notification
     //
     $siv3dNotifications: [],
@@ -873,7 +923,7 @@ mergeInto(LibraryManager.library, {
         const bodyText = UTF8ToString(body);
         let actions = [];
 
-        for (let i = 0; i < actionsNum; i++) {
+        for (var i = 0; i < actionsNum; i++) {
             const textPtr = getValue(actionTexts + i * 4, "i32");
             const actionText = UTF8ToString(textPtr);
 
@@ -957,7 +1007,7 @@ mergeInto(LibraryManager.library, {
         setValue(returnPtr, voices.length, "i32");
         setValue(returnPtr + 4, listBufferPtr, "i32");
 
-        for(let i = 0; i < voices.length; i++) {
+        for(var i = 0; i < voices.length; i++) {
             const languageCode = LanguageNameToLanguageCodeList[voices[i].lang];
              
             setValue(listBufferPtr + 0, languageCode, "i32");
@@ -1027,6 +1077,46 @@ mergeInto(LibraryManager.library, {
     siv3dLaunchBrowser__sig: "vi",
     siv3dLaunchBrowser__deps: [ "$siv3dRegisterUserAction" ],
 
+    siv3dGetURLParameters: function() {
+        const params = new URL(document.location).searchParams.entries();
+        const paramStrs = [];
+        
+        for (const param of params)
+        {
+            paramStrs.push(...param);
+        }
+
+        const dataPos = (Module["_malloc"](4 * (paramStrs.length + 1))) / 4;
+        HEAPU32.fill(0, dataPos, dataPos + paramStrs.length + 1);
+
+        for (var i = 0; i < paramStrs.length; i++)
+        {
+            HEAP32[dataPos + i] = allocate(intArrayFromString(paramStrs[i]), ALLOC_NORMAL);
+        }
+
+        return dataPos * 4; // dataPos * sizeof(uint32_t)
+    },
+    siv3dGetURLParameters__sig: "iv",
+
+    siv3dWebGPUConfigureSwapchain: function(deviceId, swapChainId, descriptor) {
+        var device = WebGPU["mgrDevice"].get(deviceId);
+        var swapChain = WebGPU["mgrSwapChain"].get(swapChainId);
+        var width = {{{ makeGetValue('descriptor', C_STRUCTS.WGPUSwapChainDescriptor.width, 'i32', false, true) }}};
+        var height = {{{ makeGetValue('descriptor', C_STRUCTS.WGPUSwapChainDescriptor.height, 'i32', false, true) }}};
+
+        var desc = {
+            "device": device,
+            "format": WebGPU.TextureFormat[
+                {{{ makeGetValue('descriptor', C_STRUCTS.WGPUSwapChainDescriptor.format, 'i32', false, true) }}}],
+            "usage": {{{ makeGetValue('descriptor', C_STRUCTS.WGPUSwapChainDescriptor.usage, 'i32', false, true) }}},
+            "size": { width, height }
+        };
+
+        swapChain["configure"](desc);
+    },
+    siv3dWebGPUConfigureSwapchain__sig: "viii",
+    siv3dWebGPUConfigureSwapchain__deps: [ "$WebGPU" ], 
+
     //
     // Asyncify Support
     //
@@ -1081,6 +1171,51 @@ mergeInto(LibraryManager.library, {
     },
     siv3dDecodeAudioFromFile__sig: "vii",
     siv3dDecodeAudioFromFile__deps: [ "$AL", "$FS", "$Asyncify" ],
+
+    //
+    // ImageDecode
+    //
+    $siv3dDecodeCanvas: null,
+    $siv3dDecodeCanvasContext: null,
+
+    siv3dDecodeImageFromFile: function(src, size, data) {
+        Asyncify.handleSleep(function(wakeUp) {
+            if (!siv3dDecodeCanvas) {
+                siv3dDecodeCanvas = document.createElement('canvas');
+                siv3dDecodeCanvasContext = siv3dDecodeCanvas.getContext("2d");
+            }
+
+            const imageData = new Uint8ClampedArray(HEAPU8.buffer, src, size);
+            const imageBlob = new Blob([ imageData ]);
+            const image = new Image();
+
+            image.onload = function() {
+                siv3dDecodeCanvas.width = image.width;
+                siv3dDecodeCanvas.height = image.height;
+                siv3dDecodeCanvasContext.drawImage(image, 0, 0);
+
+                const decodedImageData = siv3dDecodeCanvasContext.getImageData(0, 0, image.width, image.height).data;
+                const dataBuffer = Module["_malloc"](decodedImageData.length);
+
+                HEAPU8.set(decodedImageData, dataBuffer);
+
+                HEAPU32[(data>>2)+0] = dataBuffer;
+                HEAPU32[(data>>2)+1] = decodedImageData.length;
+                HEAPU32[(data>>2)+2] = image.width;
+                HEAPU32[(data>>2)+3] = image.height;
+
+                URL.revokeObjectURL(image.src);
+                wakeUp();
+            };
+            image.onerror = function() {
+                URL.revokeObjectURL(image.src);
+                wakeUp();
+            };
+            image.src = URL.createObjectURL(imageBlob);
+        });
+    },
+    siv3dDecodeImageFromFile__sig: "viii",
+    siv3dDecodeImageFromFile__deps: [ "$siv3dDecodeCanvas", "$siv3dDecodeCanvasContext", "$Asyncify" ],
 #else
     siv3dRequestAnimationFrame: function() {
     },
@@ -1093,16 +1228,12 @@ mergeInto(LibraryManager.library, {
         HEAPU32[(arg>>2)+3] = 0;
     },
     siv3dDecodeAudioFromFile__sig: "vii",
-#endif
-    glTexImage2D: function(target, level, internalFormat, width, height, border, format, type, pixels) {
-        if (GLctx.currentPixelUnpackBufferBinding) {
-            GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, pixels);
-        } else if (pixels) {
-            var heap = heapObjectForWebGLType(type);
-            var typedHeap = new Uint8Array(heap.buffer, pixels >> heapAccessShiftForWebGLHeap(heap));
-            GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, typedHeap, 0);
-        } else {
-            GLctx.texImage2D(target, level, internalFormat, width, height, border, format, type, null);
-        }
+    siv3dDecodeImageFromFile: function(_, _, arg) {
+        HEAP32[(arg>>2)+0] = 0;
+        HEAP32[(arg>>2)+1] = 0;
+        HEAPU32[(arg>>2)+2] = 0;
+        HEAPU32[(arg>>2)+3] = 0;
     },
+    siv3dDecodeImageFromFile__sig: "viii",
+#endif
 })

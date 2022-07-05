@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -42,7 +42,10 @@ namespace s3d
 			
 			SIV3D_CONCEPT_FLOATING_POINT
 			inline constexpr Float TwoPi_v		= Float(6.283185307179586476925286766559005768L);
-			
+				
+			SIV3D_CONCEPT_FLOATING_POINT
+			inline constexpr Float Tau_v		= Float(6.283185307179586476925286766559005768L);
+					
 			SIV3D_CONCEPT_FLOATING_POINT
 			inline constexpr Float InvTwoPi_v	= Float(0.159154943091895335768883763372514362L);
 			
@@ -100,6 +103,9 @@ namespace s3d
 			/// @brief (float) 2π
 			inline constexpr float TwoPiF		= TwoPi_v<float>;
 
+			/// @brief (float) τ (2π)
+			inline constexpr float TauF			= Tau_v<float>;
+
 			/// @brief (float) 1/(2π)
 			inline constexpr float InvTwoPiF	= InvTwoPi_v<float>;
 
@@ -142,6 +148,9 @@ namespace s3d
 
 			/// @brief 2π
 			inline constexpr double TwoPi		= TwoPi_v<double>;
+
+			/// @brief τ (2π)
+			inline constexpr double Tau			= Tau_v<double>;
 
 			/// @brief 1/(2π)
 			inline constexpr double InvTwoPi	= InvTwoPi_v<double>;
@@ -202,6 +211,20 @@ namespace s3d
 
 			[[nodiscard]]
 			inline constexpr float operator ""_piF(unsigned long long x) noexcept;
+
+
+			[[nodiscard]]
+			inline constexpr double operator ""_tau(long double x) noexcept;
+
+			[[nodiscard]]
+			inline constexpr double operator ""_tau(unsigned long long x) noexcept;
+
+			[[nodiscard]]
+			inline constexpr float operator ""_tauF(long double x) noexcept;
+
+			[[nodiscard]]
+			inline constexpr float operator ""_tauF(unsigned long long x) noexcept;
+
 
 			[[nodiscard]]
 			inline constexpr double operator ""_deg(long double deg) noexcept;

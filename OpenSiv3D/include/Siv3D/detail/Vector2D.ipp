@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -296,6 +296,17 @@ namespace s3d
 	inline constexpr typename Vector2D<Type>::value_type Vector2D<Type>::cross(const Vector2D v) const noexcept
 	{
 		return x * v.y - y * v.x;
+	}
+
+	template <class Type>
+	inline constexpr typename Vector2D<Type>::value_type Vector2D<Type>::horizontalAspectRatio() const noexcept
+	{
+		if (y == 0)
+		{
+			return 0;
+		}
+
+		return (x / y);
 	}
 
 	template <class Type>

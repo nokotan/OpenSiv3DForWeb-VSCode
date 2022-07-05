@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -61,6 +61,8 @@ namespace s3d
 		[[nodiscard]]
 		double posSec() const noexcept;
 
+		/// @brief 動画の長さ（秒）を返します。
+		/// @return 動画の長さ（秒）
 		[[nodiscard]]
 		double lengthSec() const;
 
@@ -75,12 +77,18 @@ namespace s3d
 		[[nodiscard]]
 		const VideoReader& getVideoReader() const noexcept;
 
+		/// @brief 動画の幅（ピクセル）を返します。
+		/// @return 動画の幅（ピクセル）
 		[[nodiscard]]
 		int32 width() const;
 
+		/// @brief 動画の高さ（ピクセル）を返します。
+		/// @return 動画の高さ（ピクセル）
 		[[nodiscard]]
 		int32 height() const;
 
+		/// @brief 動画の幅と高さ（ピクセル）を返します。
+		/// @return 動画の幅と高さ（ピクセル）
 		[[nodiscard]]
 		Size size() const;
 

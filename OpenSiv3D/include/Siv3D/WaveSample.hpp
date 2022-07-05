@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -34,6 +34,8 @@ namespace s3d
 
 		SIV3D_NODISCARD_CXX20
 		constexpr WaveSampleS16(int16 _left, int16 _right) noexcept;
+
+		constexpr WaveSampleS16& operator =(const WaveSampleS16& sample) = default;
 
 		constexpr WaveSampleS16& set(int16 mono) noexcept;
 

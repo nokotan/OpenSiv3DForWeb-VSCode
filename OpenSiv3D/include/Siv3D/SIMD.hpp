@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -14,7 +14,7 @@
 
 # define SIMDE_ENABLE_NATIVE_ALIASES
 
-# if SIV3D_PLATFORM(WEB) && !SIV3D_INTRINSIC(SSE)
+# if !SIV3D_INTRINSIC(SSE)
 
 # include <ThirdParty/simde/x86/sse.h>
 # include <ThirdParty/simde/x86/sse2.h>
@@ -22,6 +22,8 @@
 # include <ThirdParty/simde/x86/ssse3.h>
 # include <ThirdParty/simde/x86/sse4.1.h>
 # include <ThirdParty/simde/x86/sse4.2.h>
+
+# include <malloc.h>    // For memalign
 
 # define _mm_malloc(__size, __align) memalign((__align), (__size))
 # define _mm_free free

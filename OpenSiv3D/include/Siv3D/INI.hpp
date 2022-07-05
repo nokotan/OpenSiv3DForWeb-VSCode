@@ -2,8 +2,8 @@
 //
 //	This file is part of the Siv3D Engine.
 //
-//	Copyright (c) 2008-2021 Ryo Suzuki
-//	Copyright (c) 2016-2021 OpenSiv3D Project
+//	Copyright (c) 2008-2022 Ryo Suzuki
+//	Copyright (c) 2016-2022 OpenSiv3D Project
 //
 //	Licensed under the MIT License.
 //
@@ -135,7 +135,7 @@ namespace s3d
 		bool hasGlobalValue(NameView name) const;
 
 		[[nodiscard]]
-		const String& getGlobalValue(NameView name);
+		const String& getGlobalValue(NameView name) const;
 
 		[[nodiscard]]
 		const Value& operator [](Section_Dot_NameView section_dot_name) const;
@@ -174,7 +174,7 @@ namespace s3d
 		void write(SectionView section, NameView name, const Value& value);
 
 		template <class Type>
-		void write(SectionView section, NameView name, const Type & value);
+		void write(SectionView section, NameView name, const Type& value);
 
 		void writeGlobal(NameView name, const Value& value);
 
