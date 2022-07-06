@@ -46,5 +46,6 @@
 --preload-file OpenSiv3D/resources@/resources
 --shell-file template-web-player.html
 --pre-js OpenSiv3D/lib/Siv3D.pre.js
+--post-js OpenSiv3D/lib/Siv3D.post.js
 --post-js template-web-player.js
 --js-library OpenSiv3D/lib/Siv3D.js
