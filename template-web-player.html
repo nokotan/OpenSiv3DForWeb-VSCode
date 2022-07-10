@@ -297,6 +297,7 @@
         onRuntimeInitialized: function() {
           runtimeReady = true;
           window.addEventListener("resize", onResize);
+          window.addEventListener("orientationchange", onResize);
         },
         toggleAudioContext: function() {
           if (gainNode.gain.value == 1.0) {
