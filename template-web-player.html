@@ -189,7 +189,7 @@
               </g>
             </svg>
           </a>
-          <a class="footer-button" href="javascript:void(0);" onclick="Options.requestFullscreen(false, true)">
+          <a class="footer-button" href="javascript:void(0);" onclick="requestFullscreen()">
             <svg width="1cm" height="1cm" viewBox="0 0 100 100"
                 xmlns="http://www.w3.org/2000/svg" version="1.1">
               
@@ -207,6 +207,11 @@
       const soundOnIcon = document.querySelector('#sound-on');
       const soundOffIcon = document.querySelector('#sound-off');
       let gainNode;
+
+      function requestFullscreen() {
+        Options.requestFullscreen(false, true);
+        document.getElementById('gameViewport').setAttribute('content', 'width=device-width initial-scale=' + 1/window.devicePixelRatio);
+      }
 
       const onResize = function() {
         document.getElementById('gameViewport').setAttribute('content', 'width=device-width initial-scale=' + 1/window.devicePixelRatio);
