@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta id="gameViewport" name="viewport" content="width=device-width initial-scale=1">
+    <meta id="gameViewport" name="viewport" content="user-scalable=no">
     <title>OpenSiv3D for Web</title>
     <style>
       body {
@@ -213,9 +213,12 @@
       }
 
       const onResize = function() {
-        document.getElementById('gameViewport').setAttribute('content', 'width=device-width initial-scale=' + 1 / window.devicePixelRatio);
+        if (window.devicePixelRatio > 1.0) {
+          document.getElementById('gameViewport').setAttribute('content', `width=800px, user-scalable=no`);
+        }
+        
         appContainer.style.height = `${window.innerHeight}px`;
-        Options["setCanvasSize"](canvasContainerElement.clientWidth * window.devicePixelRatio, canvasContainerElement.clientHeight * window.devicePixelRatio);
+        Options["setCanvasSize"](canvasContainerElement.clientWidth, canvasContainerElement.clientHeight);
       }
 
       const onAudioInit = function() {
