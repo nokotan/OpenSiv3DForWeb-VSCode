@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="user-scalable=no" />
+    <meta id="gameViewport" name="viewport" content="width=device-width initial-scale=1">
     <title>OpenSiv3D for Web</title>
     <style>
       body {
@@ -209,6 +209,7 @@
       let gainNode;
 
       const onResize = function() {
+        document.getElementById('gameViewport').setAttribute('content', 'width=device-width initial-scale=' + 1/window.devicePixelRatio);
         appContainer.style.height = `${window.innerHeight}px`;
         Options["setCanvasSize"](canvasContainerElement.clientWidth, canvasContainerElement.clientHeight);
       }
