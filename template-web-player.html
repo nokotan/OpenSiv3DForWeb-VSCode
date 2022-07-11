@@ -210,13 +210,12 @@
 
       function enterFullscreen() {
         Options.requestFullscreen(false, true);
-        document.getElementById('gameViewport').setAttribute('content', 'width=device-width initial-scale=' + 1/window.devicePixelRatio);
       }
 
       const onResize = function() {
-        document.getElementById('gameViewport').setAttribute('content', 'width=device-width initial-scale=' + 1/window.devicePixelRatio);
+        document.getElementById('gameViewport').setAttribute('content', 'width=device-width initial-scale=' + 1 / window.devicePixelRatio);
         appContainer.style.height = `${window.innerHeight}px`;
-        Options["setCanvasSize"](canvasContainerElement.clientWidth, canvasContainerElement.clientHeight);
+        Options["setCanvasSize"](canvasContainerElement.clientWidth * window.devicePixelRatio, canvasContainerElement.clientHeight * window.devicePixelRatio);
       }
 
       const onAudioInit = function() {
