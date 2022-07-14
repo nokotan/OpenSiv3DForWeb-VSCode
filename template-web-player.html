@@ -268,21 +268,29 @@
         audioSource.disconnect(audioCtx.destination);
         audioSource.connect(gainNode);
         gainNode.connect(audioCtx.destination);
+        audioCtx.addEventListener("statechange", updateAudioStatus);
       }
-      
-      async function toggleAudioContext() {
-        if (audioCtx.state == "suspended") {
-          await audioCtx.resume();
 
-          gainNode.gain.value = 1.0;     
-          showSoundOnIcon();
-        } else if (gainNode.gain.value == 1.0) {
-          gainNode.gain.value = 0.0;
+      function updateAudioStatus() {
+        if (audioCtx.state != "running" || gainNode.gain.value == 0.0) {    
           showSoundOffIcon();
-        } else {
-          gainNode.gain.value = 1.0;     
+        } else {   
           showSoundOnIcon();
         }
+      }
+      
+      async function toggleAudioContext() {  
+        if (audioCtx.state != "running") {
+          return;
+        }
+
+        if (gainNode.gain.value == 1.0) {
+          gainNode.gain.value = 0.0;
+        } else {
+          gainNode.gain.value = 1.0;     
+        }
+
+        updateAudioStatus();
       }
 
       function showSoundOnIcon() {
