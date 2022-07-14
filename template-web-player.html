@@ -243,12 +243,28 @@
       let audioCtx;
 
       function enterFullscreen() {
-        Options.requestFullscreen(false, false);
+        const fullscreenFunction = 
+          canvasContainerElement.requestFullscreen || 
+          canvasContainerElement.webkitRequestFullscreen ||
+          function() {
+            alert("Fullscreen is not supported on iOS")
+          };
+        fullscreenFunction.call(canvasContainerElement);
+      }
+
+      function onExitFullscreen() {
+        if (document.fullscreen) {
+          // switched to normal
+          onResize();
+        } else {
+          // switched to fullscreen
+          onResize();
+        }
       }
 
       function onResize() {
         appContainer.style.height = `${window.innerHeight}px`;
-        Options["setCanvasSize"](canvasContainerElement.clientWidth * devicePixelRatio, canvasContainerElement.clientHeight * devicePixelRatio);
+        Options["setFramebufferSize"](canvasContainerElement.clientWidth * devicePixelRatio, canvasContainerElement.clientHeight * devicePixelRatio);
       }
 
       function onAudioInit() {
@@ -373,6 +389,7 @@
         onRuntimeInitialized: function() {
           runtimeReady = true;
           window.addEventListener("resize", onResize);
+          window.addEventListener("fullscreenchange", onExitFullscreen);
         }
       }
       Options["setStatus"]("Downloading...");
