@@ -47,7 +47,10 @@ emscripten の導入は <https://qiita.com/nokotan/items/5fa6f2d39ff7bb6641e8> �
 
 ## ライセンス表記
 
-- MIT ライセンスにて配布します (基本的に何でもできると思います; 継承すべきライセンスも大丈夫だと思う...たぶん)
+- このリポジトリ自体は MIT No Attribution ライセンスにて配布します
+  - このリポジトリに含まれるファイルは、OpenSiv3D フォルダ配下のファイルを除いて、ライセンス表記なしで自由に利用可能です
+- Siv3D 本体のライセンスは <https://siv3d.jp/web/license/0.6.5/license.html> を参照してください
+- emscripten によって出力された JavaScript ファイルは [MIT ライセンス](https://github.com/emscripten-core/emscripten/blob/main/LICENSE) に従います
 
 - - -
 
