@@ -15,7 +15,7 @@ jobs:
       - name: Build
         run: |
           mkdir build
-          emcc Main.cpp -c -o Main.o @.vscode/Compile.rsp @.vscode/Compile.Release.rsp
+          emcc -c -o Main.o @.vscode/Compile.rsp @.vscode/Compile.Release.rsp
           emcc Main.o -O2 @.vscode/Link.rsp @.vscode/Link.Release.rsp
 
       - name: Pack
