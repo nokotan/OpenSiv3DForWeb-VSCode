@@ -23,7 +23,7 @@
             "postDebugTask": "Stop Local Server"
         },
         {
-            "type": "wasm",
+            "type": "wasm-chrome",
             "request": "launch",
             "name": "WebAssembly Debug",
             "url": "http://localhost:8080/index.html",
