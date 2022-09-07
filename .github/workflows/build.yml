@@ -18,9 +18,15 @@ jobs:
           emcc Main.cpp -c -o Main.o @.vscode/Compile.rsp @.vscode/Compile.Release.rsp
           emcc Main.o -O2 @.vscode/Link.rsp @.vscode/Link.Release.rsp
 
+      - name: Pack
+        run: |
+          cp index.* build
+          cp favicon.ico build
+          cp -r example build
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: ./build
           keep_files: true
