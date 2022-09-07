@@ -15,12 +15,12 @@ jobs:
       - name: Build
         run: |
           mkdir build
-          emcc Main.cpp -c -o Main.o -std=c++2a -O2 @.vscode/Compile.Release.rsp
-          emcc Main.o -o build/index.html -O2 @.vscode/Link.Release.rsp
+          emcc Main.cpp -c -o Main.o @.vscode/Compile.rsp @.vscode/Compile.Release.rsp
+          emcc Main.o -O2 @.vscode/Link.rsp @.vscode/Link.Release.rsp
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: .
           keep_files: true
