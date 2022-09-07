@@ -9,3 +9,6 @@ cp -r Package/* OpenSiv3D
 # Clean up
 rm -r Package
 rm OpenSiv3D.tgz
+
+mv OpenSiv3D/resources .
+mv OpenSiv3D/example .

@@ -10,7 +10,7 @@ on:
       url:
         description: Release URL
         required: true
-        default: 'https://github.com/nokotan/OpenSiv3D/releases/download/v0.4.3.3-web/OpenSiv3D-wasm.tgz'
+        default: 'https://github.com/nokotan/OpenSiv3D/releases/download/v0.6.5/OpenSiv3D-wasm.tgz'
 
 jobs:
   update:
