@@ -1,3 +1,1 @@
--D_XM_NO_INTRINSICS_
--IOpenSiv3D/include
--IOpenSiv3D/include/ThirdParty
+-O2

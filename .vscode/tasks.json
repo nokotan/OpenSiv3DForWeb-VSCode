@@ -5,71 +5,29 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "Build: Compile (Debug)",
-            "command": "em++",
+            "label": "Build: Debug",
+            "command": "emcc",
             "args": [
-                "Main.cpp", "-c", "-o", "Main.o",
-                "-O0", "-std=c++2a", "-g",
-                "@.vscode/Compile.Debug.rsp"
-            ],
-            "group": "build"
-        },
-        {
-            "type": "shell",
-            "label": "Build: Link (Debug)",
-            "command": "em++",
-            "args": 
-            [
-                "Main.o", "-o", "index.html",
-                "-O0", "-g",
+                "@.vscode/Compile.rsp",
+                "@.vscode/Compile.Debug.rsp",
+                "@.vscode/Link.rsp",
                 "@.vscode/Link.Debug.rsp"
             ],
-            "group": "build"
-        },
-        {
-            "type": "shell",
-            "label": "Build: Compile (Release)",
-            "command": "em++",
-            "args": [
-                "Main.cpp", "-c", "-o", "Main.o",
-                "-O2", "-std=c++2a",
-                "@.vscode/Compile.Release.rsp"
-            ],
-            "group": "build"
-        },
-        {
-            "type": "shell",
-            "label": "Build: Link (Release)",
-            "command": "em++",
-            "args": 
-            [
-                "Main.o", "-o", "index.html",
-                "-O2",
-                "@.vscode/Link.Release.rsp"
-            ],
-            "group": "build"
-        },
-        {
-            "type": "shell",
-            "label": "Build: Debug",
-            "dependsOn": 
-            [
-                    "Build: Compile (Debug)", "Build: Link (Debug)",
-            ],
-            "dependsOrder": "sequence",
             "group":{
-                    "kind": "build",
-                    "isDefault": true
+                "kind": "build",
+                "isDefault": true
             }
         },
         {
             "type": "shell",
             "label": "Build: Release",
-            "dependsOn": 
-            [
-                    "Build: Compile (Release)", "Build: Link (Release)",
+            "command": "emcc",
+            "args": [
+                "@.vscode/Compile.rsp",
+                "@.vscode/Compile.Release.rsp",
+                "@.vscode/Link.rsp",
+                "@.vscode/Link.Release.rsp"
             ],
-            "dependsOrder": "sequence",
             "group": "build"
         },
         {
@@ -77,8 +35,8 @@
             "label": "Run Local Server and Open Browser",
             "command": "emrun",
             "args": [
+                "--hostname", "localhost",
                 "--port", "8080",
-                "--serve_after_close",
                 "index.html"
             ],
             "group": "none"

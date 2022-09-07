@@ -1,0 +1,54 @@
+-o index.html
+
+-LOpenSiv3D/lib 
+-LOpenSiv3D/lib/Siv3D/freetype
+-LOpenSiv3D/lib/Siv3D/giflib
+-LOpenSiv3D/lib/Siv3D/harfbuzz
+-LOpenSiv3D/lib/Siv3D/opencv
+-LOpenSiv3D/lib/Siv3D/opus
+-LOpenSiv3D/lib/Siv3D/png
+-LOpenSiv3D/lib/Siv3D/tiff
+-LOpenSiv3D/lib/Siv3D/turbojpeg
+-LOpenSiv3D/lib/Siv3D/SDL2
+-LOpenSiv3D/lib/Siv3D/webp
+-LOpenSiv3D/lib/Siv3D/zlib
+
+-lSiv3D
+-lfreetype
+-lgif
+-lharfbuzz
+-lopencv_core
+-lopencv_imgproc
+-lopencv_objdetect
+-lopencv_photo
+-lturbojpeg
+-ltiff
+-lopus
+-lopusfile
+-lpng
+-lSDL2
+-lwebp
+-lz
+
+--emrun
+-s FULL_ES3=1
+-s MIN_WEBGL_VERSION=2
+-s MAX_WEBGL_VERSION=2
+-s USE_GLFW=3
+-s USE_OGG=1
+-s USE_VORBIS=1
+-s ALLOW_MEMORY_GROWTH=1
+-s ERROR_ON_UNDEFINED_SYMBOLS=0
+
+-s ASYNCIFY=1
+-s ASYNCIFY_IGNORE_INDIRECT=1
+-s ASYNCIFY_IMPORTS="['siv3dRequestAnimationFrame','siv3dOpenDialog','siv3dDecodeAudioFromFile','siv3dGetClipboardText']"
+-s ASYNCIFY_ADD="['main','Main()','s3d::System::Update()','s3d::AACDecoder::decode(*) const','s3d::MP3Decoder::decode(*) const','s3d::CAudioDecoder::decode(*)','s3d::AudioDecoder::Decode(*)','s3d::Wave::Wave(*)','s3d::Audio::Audio(*)','s3d::Clipboard::GetText(*)','s3d::CClipboard::getText(*)']"
+
+-s MODULARIZE=1
+--preload-file resources@/resources
+--shell-file OpenSiv3D/template-web-player.html
+--pre-js OpenSiv3D/lib/Siv3D/Siv3D.pre.js
+--post-js OpenSiv3D/lib/Siv3D/Siv3D.post.js
+--post-js OpenSiv3D/template-web-player.js
+--js-library OpenSiv3D/lib/Siv3D/Siv3D.js
