@@ -10,5 +10,8 @@ cp -r Package/* OpenSiv3D
 rm -r Package
 rm OpenSiv3D.tgz
 
+rm -r resources
+rm -r example
+
 mv OpenSiv3D/resources .
 mv OpenSiv3D/example .

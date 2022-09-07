@@ -47,8 +47,8 @@
 
 -s MODULARIZE=1
 --preload-file resources@/resources
---shell-file OpenSiv3D/template-web-player.html
+--shell-file OpenSiv3D/Templates/Embeddable/web-player.html
 --pre-js OpenSiv3D/lib/Siv3D/Siv3D.pre.js
 --post-js OpenSiv3D/lib/Siv3D/Siv3D.post.js
---post-js OpenSiv3D/template-web-player.js
+--post-js OpenSiv3D/Templates/Embeddable/web-player.js
 --js-library OpenSiv3D/lib/Siv3D/Siv3D.js
