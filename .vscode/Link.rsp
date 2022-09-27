@@ -42,8 +42,8 @@
 
 -s ASYNCIFY=1
 -s ASYNCIFY_IGNORE_INDIRECT=1
--s ASYNCIFY_IMPORTS="['siv3dRequestAnimationFrame','siv3dGetClipboardText','siv3dDecodeImageFromFile','siv3dSleepUntilWaked','invoke_vi']"
--s ASYNCIFY_ADD="['main','Main()','InitSiv3D','s3d::CSystem::init()','s3d::System::Update()','s3d::AACDecoder::decode(*) const','s3d::MP3Decoder::decode(*) const','s3d::CAudioDecoder::decode(*)','s3d::AudioDecoder::Decode(*)','s3d::Wave::Wave(*)','s3d::Audio::Audio(*)','s3d::Clipboard::GetText(*)','s3d::CClipboard::getText(*)','s3d::GenericDecoder::decode(*) const','s3d::CImageDecoder::decode(*)','s3d::Image::Image(*)','s3d::Texture::Texture(*)','s3d::ImageDecoder::Decode(*)','s3d::ImageDecoder::GetImageInfo(*)','s3d::CRenderer2D_GLES3::init()','s3d::CRenderer2D_WebGPU::init()','s3d::Clipboard::GetText(*)','s3d::CClipboard::getText(*)','s3d::SimpleHTTP::Save(*)','s3d::SimpleHTTP::Load(*)','s3d::SimpleHTTP::Get(*)','s3d::SimpleHTTP::Post(*)','s3d::VideoReader::VideoReader(*)','s3d::VideoReader::open(*)','s3d::Platform::Web::FetchFileIfNotExists(*)']"
+-s ASYNCIFY_IMPORTS="['siv3dRequestAnimationFrame','siv3dGetClipboardText','siv3dDecodeImageFromFile','siv3dSleepUntilWaked','invoke_vi','invoke_v']"
+-s ASYNCIFY_ADD="['main','Main()','dynCall_v','dynCall_vi','s3d::TryMain()','s3d::CSystem::init()','s3d::System::Update()','s3d::AACDecoder::decode(*) const','s3d::MP3Decoder::decode(*) const','s3d::CAudioDecoder::decode(*)','s3d::AudioDecoder::Decode(*)','s3d::Wave::Wave(*)','s3d::Audio::Audio(*)','s3d::Clipboard::GetText(*)','s3d::CClipboard::getText(*)','s3d::GenericDecoder::decode(*) const','s3d::CImageDecoder::decode(*)','s3d::Image::Image(*)','s3d::Texture::Texture(*)','s3d::ImageDecoder::Decode(*)','s3d::ImageDecoder::GetImageInfo(*)','s3d::CRenderer2D_GLES3::init()','s3d::CRenderer2D_WebGPU::init()','s3d::Clipboard::GetText(*)','s3d::CClipboard::getText(*)','s3d::SimpleHTTP::Save(*)','s3d::SimpleHTTP::Load(*)','s3d::SimpleHTTP::Get(*)','s3d::SimpleHTTP::Post(*)','s3d::VideoReader::VideoReader(*)','s3d::VideoReader::open(*)','s3d::Platform::Web::FetchFileIfNotExists(*)']"
 
 -s MODULARIZE=1
 --preload-file resources@/resources
