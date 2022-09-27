@@ -2,16 +2,21 @@ mergeInto(LibraryManager.library, {
     //
     // System
     //
-    siv3dRuntimeKeepalivePush: function() {
-        runtimeKeepalivePush();
+    siv3dCallOnAlert: function(textPtr) {
+        const text = UTF8ToString(textPtr);
+        Module["onAlert"] && Module["onAlert"](text);
     },
-    siv3dRuntimeKeepalivePush__sig: "v",
-    siv3dRuntimeKeepalivePush__deps: [ "$runtimeKeepalivePush" ],
-    siv3dRuntimeKeepalivePop: function() {
-        runtimeKeepalivePop();
+    siv3dCallOnAlert__sig: "vi",
+
+    siv3dLocateFile: function() {
+        if (Module["locateFile"]) {
+            const origin = Module["locateFile"]("");
+            return allocate(intArrayFromString(origin), ALLOC_NORMAL);
+        } else {
+            return 0;
+        }
     },
-    siv3dRuntimeKeepalivePop__sig: "v",
-    siv3dRuntimeKeepalivePop__deps: [ "$runtimeKeepalivePop" ],
+    siv3dLocateFile__sig: "iv",
 
     //
     // GamePads
