@@ -426,17 +426,17 @@ mergeInto(LibraryManager.library, {
     
     $siv3dOnTouchStart: function(e) {
         siv3dActiveTouches = Array.from(e.touches);
-        e.preventDefault()
+        // e.preventDefault()
     },
 
     $siv3dOnTouchEnd: function(e) {
         siv3dActiveTouches = Array.from(e.touches);
-        e.stopPropagation();
+        // e.stopPropagation();
     },
 
     $siv3dOnTouchMove: function(e) {
         siv3dActiveTouches = Array.from(e.touches);
-        e.stopPropagation();
+        // e.stopPropagation();
     },
 
     siv3dRegisterTouchCallback: function() {
@@ -551,21 +551,27 @@ mergeInto(LibraryManager.library, {
     },
     $siv3dUserActionHookCallBack__deps: [ "$siv3dHasUserActionTriggered", "$siv3dTriggerUserAction" ],
 
+    $siv3dUserActionTouchEndCallBack: function(e) {
+        siv3dTriggerUserAction();
+        e.preventDefault();
+    },
+    $siv3dUserActionHookCallBack__deps: [ "$siv3dHasUserActionTriggered", "$siv3dTriggerUserAction" ],
+
     siv3dStartUserActionHook: function() {
-        Module["canvas"].addEventListener('touchend', siv3dUserActionHookCallBack);
+        Module["canvas"].addEventListener('touchend', siv3dUserActionTouchEndCallBack);
         Module["canvas"].addEventListener('mousedown', siv3dUserActionHookCallBack);
         window.addEventListener('keydown', siv3dUserActionHookCallBack);
     },
     siv3dStartUserActionHook__sig: "v",
-    siv3dStartUserActionHook__deps: [ "$siv3dUserActionHookCallBack", "$siv3dHasUserActionTriggered" ],
+    siv3dStartUserActionHook__deps: [ "$siv3dUserActionHookCallBack", "$siv3dUserActionTouchEndCallBack", "$siv3dHasUserActionTriggered" ],
 
     siv3dStopUserActionHook: function() {
-        Module["canvas"].removeEventListener('touchend', siv3dUserActionHookCallBack);
+        Module["canvas"].removeEventListener('touchend', siv3dUserActionTouchEndCallBack);
         Module["canvas"].removeEventListener('mousedown', siv3dUserActionHookCallBack);
         window.removeEventListener('keydown', siv3dUserActionHookCallBack);
     },
     siv3dStopUserActionHook__sig: "v",
-    siv3dStopUserActionHook__deps: [ "$siv3dUserActionHookCallBack" ],
+    siv3dStopUserActionHook__deps: [ "$siv3dUserActionHookCallBack", "$siv3dUserActionTouchEndCallBack" ],
 
     //
     // Dialog Support
@@ -700,6 +706,12 @@ mergeInto(LibraryManager.library, {
     siv3dGetClipboardText: function() {
         return Asyncify.handleSleep(function (wakeUp) {
             siv3dRegisterUserAction(function () {
+                if (!navigator.clipboard.readText) {
+                    err("Reading clipboard is not allowed in this browser.");
+                    wakeUp(0);
+                    return;
+                }
+
                 navigator.clipboard.readText()
                 .then(function(str) {
                     const strPtr = allocate(intArrayFromString(str), ALLOC_NORMAL);       
@@ -707,7 +719,7 @@ mergeInto(LibraryManager.library, {
                 })
                 .catch(function(_) {
                     wakeUp(0);
-                })
+                });
             }); 
         });
     },
@@ -716,6 +728,12 @@ mergeInto(LibraryManager.library, {
 
     siv3dGetClipboardTextAsync: function(callback, promise) {
         siv3dRegisterUserAction(function () {
+            if (!navigator.clipboard.readText) {
+                err("Reading clipboard is not allowed in this browser.");
+                {{{ makeDynCall('vii', 'callback') }}}(0, promise);
+                return;
+            }
+
             navigator.clipboard.readText()
             .then(function(str) {
                 const strPtr = allocate(intArrayFromString(str), ALLOC_NORMAL);       
@@ -724,9 +742,8 @@ mergeInto(LibraryManager.library, {
             })
             .catch(function (e) {
                 {{{ makeDynCall('vii', 'callback') }}}(0, promise);
-            })
+            });
         });
-        
     },
     siv3dGetClipboardTextAsync__sig: "vii",
     siv3dGetClipboardTextAsync__deps: [ "$siv3dRegisterUserAction" ],
