@@ -454,6 +454,23 @@
     </script>
     {{{ SCRIPT }}}
     <script>
+      async function loadServiceWorker() {
+        const controller = navigator.serviceWorker.controller;
+        if (!controller) {
+          const controllerChanged = new Promise(function(resolve) {
+            navigator.serviceWorker.addEventListener('controllerchange', resolve);
+          });
+          await navigator.serviceWorker.register('./Inflate.service.js');
+          await navigator.serviceWorker.ready;
+          await controllerChanged;
+        } 
+      }
+
+      async function loadRuntime() {
+        await loadServiceWorker();
+        Runtime(Options);
+      }
+
       if (window != window.parent) {
         var overlay = document.querySelector(".playground-overlay");
         overlay.hidden = false;
@@ -463,12 +480,12 @@
           overlay.hidden = true;
 
           Options.canvas.hidden = false;
-          Runtime(Options);
+          loadRuntime();
         });
       } else {
         document.querySelector("script[async]").addEventListener('load', function() {
           Options.canvas.hidden = false;
-          Runtime(Options);
+          loadRuntime()
         });
       }
     </script>
