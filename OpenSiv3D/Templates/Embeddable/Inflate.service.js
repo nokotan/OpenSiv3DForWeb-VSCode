@@ -61,7 +61,7 @@ self.addEventListener('fetch', function(e) {
                 return await fetch(e.request);
             }
 
-            const gzResponse = await fetch(e.request.url + '.gz');
+            const gzResponse = await fetch(e.request.url + '.gzip');
 
             if (gzResponse.status === 200) {
                 await inflatePromise;

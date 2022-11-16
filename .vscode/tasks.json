@@ -5,13 +5,32 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "Build: Debug",
+            "label": "Compile Debug",
             "command": "emcc",
             "args": [
                 "@.vscode/Compile.rsp",
                 "@.vscode/Compile.Debug.rsp",
                 "@.vscode/Link.rsp",
                 "@.vscode/Link.Debug.rsp"
+            ]
+        },
+        {
+            "type": "shell",
+            "label": "Compile Release",
+            "command": "emcc",
+            "args": [
+                "@.vscode/Compile.rsp",
+                "@.vscode/Compile.Release.rsp",
+                "@.vscode/Link.rsp",
+                "@.vscode/Link.Release.rsp"
+            ]
+        },
+        {
+            "label": "Build Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Compile Debug",
+                "Compress Output"
             ],
             "group":{
                 "kind": "build",
@@ -19,16 +38,22 @@
             }
         },
         {
-            "type": "shell",
-            "label": "Build: Release",
-            "command": "emcc",
-            "args": [
-                "@.vscode/Compile.rsp",
-                "@.vscode/Compile.Release.rsp",
-                "@.vscode/Link.rsp",
-                "@.vscode/Link.Release.rsp"
+            "label": "Build Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Compile Release",
+                "Compress Output"
             ],
             "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Compress Output",
+            "command": "node",
+            "args": [
+                ".vscode/Compress.mjs", "index.wasm"
+            ],
+            "group": "none"
         },
         {
             "type": "shell",
