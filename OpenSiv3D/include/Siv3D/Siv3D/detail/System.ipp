@@ -1,4 +1,4 @@
-//-----------------------------------------------
+﻿//-----------------------------------------------
 //
 //	This file is part of the Siv3D Engine.
 //
@@ -25,7 +25,7 @@ namespace s3d
 
         /// @brief 指定した AsyncTask の準備ができるまで待機します
 		template<class Type>
-		Optional<Type> WaitForFutureResolved(AsyncTask<Type>& task)
+		Optional<Type> AwaitAsyncTask(AsyncTask<Type>& task)
         {
             while (!task.isReady())
             {

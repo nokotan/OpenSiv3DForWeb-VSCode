@@ -55,10 +55,13 @@ namespace s3d
 	}
 
 	template <class Type>
-	template <class U>
+	template <class U, std::enable_if_t<std::disjunction_v<
+		std::is_assignable<std::optional<Type>&, U>,
+		std::is_assignable<std::optional<Type>&, const U&>,
+		std::is_assignable<std::optional<Type>&, U&&>>>*>
 	inline Optional<Type>& Optional<Type>::operator =(U&& value)
 	{
-		base_type::operator =(std::move(value));
+		base_type::operator =(std::forward<U>(value));
 		return *this;
 	}
 
@@ -72,7 +75,14 @@ namespace s3d
 		}
 		else
 		{
-			reset();
+			if constexpr (std::is_assignable_v<Type&, const Optional<U>&>)
+			{
+				base_type::operator =(other);
+			}
+			else
+			{
+				reset();
+			}
 		}
 
 		return *this;
@@ -88,7 +98,14 @@ namespace s3d
 		}
 		else
 		{
-			reset();
+			if constexpr (std::is_assignable_v<Type&, Optional<U>&&>)
+			{
+				base_type::operator =(std::move(other));
+			}
+			else
+			{
+				reset();
+			}
 		}
 
 		return *this;

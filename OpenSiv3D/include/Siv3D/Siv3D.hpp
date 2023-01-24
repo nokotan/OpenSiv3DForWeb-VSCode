@@ -162,6 +162,9 @@
 // 文字列ルックアップヘルパー | Heterogeneous lookup helper
 # include <Siv3D/HeterogeneousLookupHelper.hpp>
 
+// 順序付けテーブル | Ordered table
+# include <Siv3D/OrderedTable.hpp>
+
 // ハッシュテーブル | Hash table
 # include <Siv3D/HashTable.hpp>
 
@@ -893,6 +896,30 @@
 
 // TCP クライアント | TCP client
 # include <Siv3D/TCPClient.hpp>
+
+//////////////////////////////////////////////////
+//
+//	OSC 通信 | OSC Communication
+//
+//////////////////////////////////////////////////
+
+// OSC 型タグ
+# include <Siv3D/OSCTypeTag.hpp>
+
+// OSC 送信メッセージ
+# include <Siv3D/OSCMessage.hpp>
+
+// OSC 送信クラス
+# include <Siv3D/OSCSender.hpp>
+
+// OSC 受信メッセージの引数
+# include <Siv3D/OSCArgument.hpp>
+
+// OSC 受信メッセージ
+# include <Siv3D/ReceivedOSCMessage.hpp>
+
+// OSC 受信クラス
+# include <Siv3D/OSCReceiver.hpp>
 
 //////////////////////////////////////////////////
 //
@@ -1837,6 +1864,8 @@
 	# include <emscripten.h>
 
 # endif
+
+# include <Siv3D/Browser.hpp>
 
 //////////////////////////////////////////////////
 //
